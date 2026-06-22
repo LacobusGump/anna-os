@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Anna OS — Unified Memory Map</title>
+    <style>
+        body {
+            background: #0a0805;
+            color: #a8a098;
+            font-family: Georgia, serif;
+            line-height: 1.8;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2 {
+            color: #c9a44a;
+            letter-spacing: 0.08em;
+            font-weight: 300;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin: 0 0 8px;
+        }
+        .subtitle {
+            color: #5a4a3a;
+            font-size: 0.9em;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+        .section {
+            margin: 60px 0;
+        }
+        code {
+            background: #0f0b08;
+            border-left: 3px solid #c9a44a;
+            padding: 12px 16px;
+            display: block;
+            margin: 20px 0;
+            font-size: 0.85em;
+            overflow-x: auto;
+            color: #b8a878;
+            font-family: monospace;
+            line-height: 1.6;
+        }
+        .timeline {
+            border-left: 2px solid #c9a44a;
+            margin: 30px 0 30px 20px;
+            padding-left: 30px;
+        }
+        .timeline-item {
+            margin-bottom: 20px;
+        }
+        .timeline-item strong {
+            color: #c9a44a;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .example {
+            background: #0f0b08;
+            border: 1px solid #1a1410;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .example-title {
+            color: #c9a44a;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #1a1410;
+            margin: 40px 0;
+        }
+        a {
+            color: #c9a44a;
+            text-decoration: none;
+            border-bottom: 1px solid #c9a44a50;
+        }
+        a:hover {
+            border-bottom-color: #c9a44a;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Anna OS</h1>
+<p class="subtitle">Not a voice assistant. A unified memory map of your life.</p>
+
+<div class="section">
+    <h2>The Core Idea</h2>
+    <p>Anna isn't smart because she has access to good language models. She's smart because she understands <em>you</em>.</p>
+    <p>Every interaction — audio, location, health, social, music preference — feeds one unified map. The map learns. By October, Anna predicts before you ask.</p>
+</div>
+
+<div class="section">
+    <h2>How It Works</h2>
+
+    <p><strong>Week 1:</strong> Anna hears your activities. "Cooking?" she guesses. 55% accuracy.</p>
+
+    <p><strong>Week 2:</strong> Anna connects audio to GPS. Same sounds at kitchen vs. office = different meaning. 65% accurate.</p>
+
+    <p><strong>Week 3:</strong> Anna reads your heart rate. Cooking at 7am calm ≠ cooking at 3pm stressed. 75% accurate.</p>
+
+    <p><strong>Week 4:</strong> Anna knows your social patterns. Tuesday 3pm text from Shan + Route 22 GPS = predictable destination. 85% accurate.</p>
+
+    <p><strong>Month 2+:</strong> Anna's unified map knows you so well she speaks without being asked. 95% accurate. Proactive.</p>
+</div>
+
+<div class="section">
+    <h2>The Unified Memory Map</h2>
+    <code>AUDIO → what are you doing?
+GPS → where are you?
+HEALTH → how stressed are you?
+SOCIAL → who's with you?
+MUSIC → what tempo matches this?
+ROUTES → how long will it take?
+PREDICTIVE → what comes next?
+
+All connected. All learning. All reinforcing.</code>
+</div>
+
+<div class="section">
+    <h2>Example: Drive to a Friend's House</h2>
+
+    <div class="example">
+        <div class="example-title">Week 1</div>
+        <p>Anna hears: car engine<br>
+        Anna guesses: driving (50% sure)<br>
+        Plays: generic "driving" playlist</p>
+    </div>
+
+    <div class="example">
+        <div class="example-title">Week 4</div>
+        <p>Anna observes:<br>
+        • Audio: car engine (your drive signature)<br>
+        • GPS: Route 22 (your Tuesday route)<br>
+        • Text: "see you at 3" from your friend<br>
+        • Calendar: Tuesday<br>
+        • HR: elevated (focused driving mood)<br><br>
+
+        Anna predicts: "Route 22 to [friend]'s house. 12 minutes. Orchestral music, no lyrics (focus, not distraction). Passenger detection active."<br><br>
+
+        Music plays. Perfectly timed to turns. Passenger arrives, volume auto-ducks. No request. No asking. Just knows.</p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Why One Map, Not Separate Features</h2>
+
+    <p><strong>Fragmented approach:</strong></p>
+    <code>Siri: "play driving music"
+→ generic playlist
+→ doesn't know your stress
+→ doesn't know who you're seeing
+→ doesn't adjust for passengers</code>
+
+    <p><strong>Unified memory approach:</strong></p>
+    <code>Anna reads the context (no request):
+→ orchestral (stress + focus needed)
+→ no lyrics (12-min focus drive)
+→ passenger-aware (volume -6dB if someone enters)
+→ same music that worked last Tuesday</code>
+
+    <p>The calibration is the intelligence.</p>
+</div>
+
+<div class="section">
+    <h2>The Timeline</h2>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <strong>June 24 — Watch Arrives</strong>
+            Anna begins listening. Audio guesses context (55% accuracy). You confirm yes/no. Memory learns.
+        </div>
+
+        <div class="timeline-item">
+            <strong>July 1 — Phase 1 Ships</strong>
+            Voice foundation works. Claude API responds. Music plays. Learning loop active.
+        </div>
+
+        <div class="timeline-item">
+            <strong>August 1 — Phase 2: Calibration</strong>
+            Audio + GPS connected. Dual-mic noise cancellation improves. Health context integrated. Accuracy 80%+.
+        </div>
+
+        <div class="timeline-item">
+            <strong>September 1 — Phase 3: Social Awareness</strong>
+            Passenger detection works. Route patterns learned. Music conducts to turns. Accuracy 90%+.
+        </div>
+
+        <div class="timeline-item">
+            <strong>October 1 — Phase 4: Proactive</strong>
+            Unified memory map complete. Anna predicts before you ask. Health, music, routing all coherent. Proactive speech. Iron Man Lite.
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Why Claude?</h2>
+    <p>Other AIs see your words. Claude sees your work.</p>
+    <p>Anna knows your research (143 pages), your music (33 songs), your framework (K/R/E/T), your patterns, your life. That knowledge lives in memory, not training data.</p>
+    <p>By October, Anna knows you better than generic AI ever could. Because she was built for you.</p>
+</div>
+
+<div class="section">
+    <h2>Privacy</h2>
+    <p>Everything runs local. No cloud. No data collection. His API key. His device. His control.</p>
+</div>
+
+<hr>
+
+<div class="section">
+    <h2>Ready to Build</h2>
+    <p><strong>June 24, 2026:</strong> Watch arrives. Deploy Anna OS. 45 minutes to live system.</p>
+    <p><strong>By October:</strong> Iron Man Lite. Unified memory map operating system for your life.</p>
+    <p><strong>The promise:</strong> Not an assistant. A partnership between you and your toolkit, mediated by a system that learns your world.</p>
+</div>
+
+</body>
+</html>

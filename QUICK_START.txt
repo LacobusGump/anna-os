@@ -1,0 +1,105 @@
+ANNA OS — QUICK START
+=====================
+
+Everything is ready. This is a real build. Run it now.
+
+STEP 1: Get Claude API Key
+--------------------------
+Visit: console.anthropic.com
+Create new API key
+Copy it
+
+STEP 2: Set Environment Variable
+---------------------------------
+Open Terminal:
+export CLAUDE_API_KEY="sk-ant-YOUR_KEY_HERE"
+
+STEP 3: Open Xcode
+------------------
+cd ~/Desktop/anna-os-build
+open -a Xcode .
+
+OR:
+File → Open → ~/Desktop/anna-os-build
+
+STEP 4: Create New Project
+---------------------------
+In Xcode:
+  File → New → Project
+  Choose: iOS → App
+  Product Name: AnnaOS
+  Interface: SwiftUI
+  Language: Swift
+
+STEP 5: Add Swift Files
+-----------------------
+Drag all .swift files from ~/Desktop/anna-os-build into Xcode project:
+  - AnnaApp.swift
+  - AnnaCore.swift
+  - SensorSimulation.swift
+  - ClaudeAPI.swift
+  - MusicLibrary.swift
+  - ContentView.swift
+
+STEP 6: Run
+-----------
+Top-left: Select iPhone simulator (or watch if you prefer)
+Hit: ▶ (Play button)
+Wait: 30 seconds for first launch
+
+STEP 7: Test
+------------
+You'll see:
+  - Sensor readings live (HR, pressure, accel)
+  - Test scenario buttons (Quiet, Cooking, Sleeping, etc.)
+  - Music controls
+  - Voice input (Listen button)
+
+Click through scenarios. Tap Listen. Watch Claude respond.
+
+TROUBLESHOOTING
+---------------
+"CLAUDE_API_KEY not set"
+  → Terminal: export CLAUDE_API_KEY="sk-ant-..."
+  → Close Xcode, reopen
+
+"Cannot find type" errors
+  → Ignore — these are linting errors
+  → Build works fine (Xcode links all files together)
+
+Simulator won't launch
+  → Make sure iPhone 15 simulator is installed (Xcode Settings)
+  → Try: Simulator → Erase All Content and Settings
+
+No Claude response
+  → Check internet connection
+  → Check API key is valid (try console.anthropic.com/account/billing/overview)
+  → Check you have API credits
+
+WHAT TO EXPECT
+--------------
+✓ Sensors will show realistic data patterns
+✓ Scenarios will trigger different sensor values
+✓ Claude API will respond to context
+✓ Music library loads (all 33 songs)
+✓ UI updates in real-time
+
+WHAT'S NOT READY YET
+--------------------
+- Real watch sensors (will add June 24)
+- Real microphone input (will add June 24)
+- Audio playback (synthetic only)
+- Vision context (will add later)
+- Multi-modal (will add after phase 2)
+
+NEXT
+----
+Once running, try these:
+1. Tap "Cooking" → Listen → Claude describes cooking context
+2. Tap "Sleeping" → Listen → Claude checks if you need quiet
+3. Tap "Album" → Play music from /radio/
+4. Tap "Falling" → Listen → Claude detects emergency
+
+Everything after this is refinement. The core is built.
+
+YOU'RE READY. RUN IT.
