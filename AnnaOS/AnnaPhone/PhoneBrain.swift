@@ -58,8 +58,9 @@ final class PhoneBrain: ObservableObject {
     private func processClaudeRequest(_ context: String, learnedContext: String) {
         isProcessing = true
         let key = KeychainHelper.loadAPIKey()
+        let fullContext = JimProfile.systemPreamble() + "\n\n---\n\n" + context
 
-        claude.askClaude(context: context, apiKey: key) { [weak self] result in
+        claude.askClaude(context: fullContext, apiKey: key) { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async {
                 self.isProcessing = false

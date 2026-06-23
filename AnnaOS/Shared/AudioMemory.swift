@@ -160,7 +160,11 @@ class MemoryContext {
         let stats = audioMemory.stats()
 
         var context = """
-        You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts.
+        \(JimProfile.constitution)
+
+        \(JimProfile.coreMemory)
+
+        You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts. Keep learning Jim — this context grows with every tap and sample.
 
         Current state:
         - HR: \(Int(sensors.heartRate)) bpm

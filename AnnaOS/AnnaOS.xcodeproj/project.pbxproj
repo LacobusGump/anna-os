@@ -20,12 +20,16 @@
 		479B044F10B2A73ECC444A09 /* AnnaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */; };
 		4F731CAAFC461B6DFD93DBC5 /* AnnaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */; };
 		59D61FE4045F45F82D11F107 /* AnnaWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CBEE18B77E9302E3DAC2EA /* AnnaWatchApp.swift */; };
+		5A794BEA778D1226B988C8AB /* JimProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DC88D9FB988EF8E11E1AA /* JimProfile.swift */; };
 		5C26C71224AEE222EAC3070D /* InteractionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F700DD41792F9A7D958776 /* InteractionMode.swift */; };
 		62E3655FCE1798E4C37C79B0 /* PhoneContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA01DDA8E39F878F72B22CC /* PhoneContentView.swift */; };
 		6A2FC832EDC40A1F1D376C99 /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */; };
 		702DEB8914715F902C42F780 /* SpeechRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8854DE84DF1B8A66B0CD9CA8 /* SpeechRouter.swift */; };
 		7431ED0A338612BE18557ADC /* AnnaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */; };
 		7AB749066D26EC684CC47958 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0F29EF2ECC9AE911A5A7A /* KeychainHelper.swift */; };
+		8F47ACE401A157E04EBF1A3B /* JimProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56DC88D9FB988EF8E11E1AA /* JimProfile.swift */; };
+		99167CF922E0A922A2B793A3 /* JIM_PROFILE.md in Resources */ = {isa = PBXBuildFile; fileRef = BF7F3D92B72437CAA5EEB7E5 /* JIM_PROFILE.md */; };
+		A5CC83066289101F425D8BCC /* JIM_PROFILE.md in Resources */ = {isa = PBXBuildFile; fileRef = BF7F3D92B72437CAA5EEB7E5 /* JIM_PROFILE.md */; };
 		AEEACAC2567FF7349C5FA071 /* HealthSensorEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22334872F2E7762231BBB2BD /* HealthSensorEngine.swift */; };
 		C5E2A68708B069E7F8DB923E /* MusicStreamPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C06CA401447E205580E58B /* MusicStreamPlayer.swift */; };
 		CBFD600810974E82F5038163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AE742B656BD61DF8CEA708A /* Assets.xcassets */; };
@@ -88,7 +92,9 @@
 		95759B8F2AFD0302863B9E0E /* AudioMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMemory.swift; sourceTree = "<group>"; };
 		AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaModels.swift; sourceTree = "<group>"; };
 		BC54C73D52C7EC9CC33CE95D /* AnnaWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnnaWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF7F3D92B72437CAA5EEB7E5 /* JIM_PROFILE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = JIM_PROFILE.md; sourceTree = "<group>"; };
 		D2CBEE18B77E9302E3DAC2EA /* AnnaWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaWatchApp.swift; sourceTree = "<group>"; };
+		D56DC88D9FB988EF8E11E1AA /* JimProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JimProfile.swift; sourceTree = "<group>"; };
 		DCA01DDA8E39F878F72B22CC /* PhoneContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneContentView.swift; sourceTree = "<group>"; };
 		EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaMessages.swift; sourceTree = "<group>"; };
 		F380D197DBE8444D5B9E1D73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -138,6 +144,8 @@
 				AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */,
 				95759B8F2AFD0302863B9E0E /* AudioMemory.swift */,
 				14F700DD41792F9A7D958776 /* InteractionMode.swift */,
+				BF7F3D92B72437CAA5EEB7E5 /* JIM_PROFILE.md */,
+				D56DC88D9FB988EF8E11E1AA /* JimProfile.swift */,
 				69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */,
 			);
 			path = Shared;
@@ -248,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBFD600810974E82F5038163 /* Assets.xcassets in Resources */,
+				A5CC83066289101F425D8BCC /* JIM_PROFILE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1793A0F4FA1C8FC4D0A6DAE5 /* Assets.xcassets in Resources */,
+				99167CF922E0A922A2B793A3 /* JIM_PROFILE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +282,7 @@
 				342536E3518C472193AB2D56 /* AudioMemory.swift in Sources */,
 				33E55C4BDCF72DA69B57D3DF /* ClaudeAPI.swift in Sources */,
 				5C26C71224AEE222EAC3070D /* InteractionMode.swift in Sources */,
+				8F47ACE401A157E04EBF1A3B /* JimProfile.swift in Sources */,
 				7AB749066D26EC684CC47958 /* KeychainHelper.swift in Sources */,
 				235B9DED80A44E1B9A8EF0F3 /* MusicLibrary.swift in Sources */,
 				C5E2A68708B069E7F8DB923E /* MusicStreamPlayer.swift in Sources */,
@@ -296,6 +307,7 @@
 				2407183FC59EDCB8760A29E7 /* ContentView.swift in Sources */,
 				AEEACAC2567FF7349C5FA071 /* HealthSensorEngine.swift in Sources */,
 				D030E1ED8D6E9A3745EC7858 /* InteractionMode.swift in Sources */,
+				5A794BEA778D1226B988C8AB /* JimProfile.swift in Sources */,
 				6A2FC832EDC40A1F1D376C99 /* MusicLibrary.swift in Sources */,
 				0A62332A680F2C82F9DB2241 /* WatchAudioRouter.swift in Sources */,
 				FBD26A2AE841ADA83A44A608 /* WatchConnectivityClient.swift in Sources */,
@@ -325,7 +337,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -405,7 +417,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
@@ -472,7 +484,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
@@ -488,7 +500,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};

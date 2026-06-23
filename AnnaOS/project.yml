@@ -22,6 +22,10 @@ targets:
     sources:
       - path: AnnaPhone
       - path: Shared
+        excludes:
+          - "JIM_PROFILE.md"
+      - path: Shared/JIM_PROFILE.md
+        buildPhase: resources
     dependencies:
       - target: AnnaWatch
     settings:
