@@ -4,27 +4,30 @@ import Combine
 
 class AnnaCore: NSObject, ObservableObject {
     // MARK: - UI State
-    @Published var isListening = false
+    @Published var interactionMode: InteractionMode = .calibrating
+    @Published var isWakeWordListening = true
     @Published var currentResponse = ""
+    @Published var proactiveAlert = ""
     @Published var sensorState = SensorState()
     @Published var nowPlaying: Song?
     @Published var isPlaying = false
 
-    // MARK: - Audio Calibration State
-    @Published var contextGuesses: [ContextGuess] = []  // Top 3 guesses: "cooking", "coding", "sleeping"
-    @Published var audioMemoryCount: Int = 0  // How many labeled audio samples learned
+    // MARK: - Audio Calibration State (silent — watch face only)
+    @Published var contextGuesses: [ContextGuess] = []
+    @Published var audioMemoryCount: Int = 0
+    @Published var pendingPrompt: ContextGuess?
 
     private var sensorEngine: SensorSimulation
     private var claudeAPI: ClaudeAPI
     private var audioRouter: AudioRouter
     private var musicLibrary: MusicLibrary
     private var memoryContext: MemoryContext
-    private var audioMemory: AudioMemory = AudioMemory()  // NEW: stores labeled audio
-    private var toolAccess: ToolAccess = ToolAccess()  // NEW: tool integration
+    private var audioMemory: AudioMemory = AudioMemory()
+    private var toolAccess: ToolAccess = ToolAccess()
 
-    private var listenTimer: Timer?
+    private var wakeWordTimer: Timer?
     private var sensorUpdateTimer: Timer?
-    private var calibrationTimer: Timer?  // NEW: periodic guessing
+    private var calibrationTimer: Timer?
 
     override init() {
         self.sensorEngine = SensorSimulation()
@@ -36,22 +39,27 @@ class AnnaCore: NSObject, ObservableObject {
         super.init()
 
         startSensorSimulation()
-        startAudioCalibration()  // NEW: always guessing context
+        startPersistentListening()
     }
 
-    // MARK: - Audio Calibration (Primary Loop)
+    // MARK: - Persistent Listening
 
-    private func startAudioCalibration() {
+    /// Always on: calibration loop + wake-word ear. Questions never spoken.
+    private func startPersistentListening() {
         calibrationTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { [weak self] _ in
             self?.captureAndGuessContext()
         }
+        wakeWordTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            self?.scanForWakeWord()
+        }
+        isWakeWordListening = true
     }
 
     private func captureAndGuessContext() {
+        guard interactionMode == .calibrating else { return }
+
         let audioSample = sensorEngine.getAudioSample()
         let currentContext = sensorState.inferContext()
-
-        // Generate top 3 guesses based on audio + past labels
         let guesses = audioMemory.generateGuesses(
             audio: audioSample,
             sensorContext: currentContext
@@ -59,11 +67,22 @@ class AnnaCore: NSObject, ObservableObject {
 
         DispatchQueue.main.async {
             self.contextGuesses = guesses
+            self.pendingPrompt = guesses.first
             self.audioMemoryCount = self.audioMemory.labeledSamples.count
         }
     }
 
+    private func scanForWakeWord() {
+        guard isWakeWordListening else { return }
+        let audioSample = sensorEngine.getAudioSample()
+        if audioSample.containsWakeWord {
+            beginConversation()
+        }
+    }
+
     func confirmContext(guess: ContextGuess, confirmed: Bool) {
+        interactionMode = .calibrating
+        proactiveAlert = ""
         let audioSample = sensorEngine.getAudioSample()
 
         if confirmed {
@@ -93,65 +112,64 @@ class AnnaCore: NSObject, ObservableObject {
 
         DispatchQueue.main.async {
             self.audioMemoryCount = self.audioMemory.labeledSamples.count
+            self.pendingPrompt = nil
         }
     }
 
-    // MARK: - Public Interface (Voice Interaction)
+    // MARK: - Two-Way Voice (gated)
 
-    func startListening() {
-        isListening = true
-        listenTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            self?.processAudio()
-        }
-    }
+    /// User said "Hey Anna" — conversation mode. Voice out is allowed.
+    func beginConversation() {
+        interactionMode = .conversing
+        proactiveAlert = ""
+        pendingPrompt = nil
 
-    func stopListening() {
-        isListening = false
-        listenTimer?.invalidate()
-    }
-
-    private func processAudio() {
-        let audioSample = sensorEngine.getAudioSample()
-
-        // Detect wake word "Anna"
-        if audioSample.containsWakeWord {
-            handleWakeWord()
-        }
-    }
-
-    private func handleWakeWord() {
-        stopListening()
-
-        // Get context from learned patterns + sensors
         let learnedContext = audioMemory.getMostLikelyContext()
-        let sensorContext = sensorState.inferContext()
         let context = memoryContext.buildContext(
             sensors: sensorState,
             learned: learnedContext,
             audioMemory: audioMemory
         )
 
-        // Send to Claude with full context
         claudeAPI.askClaude(context: context) { [weak self] response in
-            DispatchQueue.main.async {
-                // Check if tools should be used
-                let toolsToUse = self?.toolAccess.selectTools(for: context, context: learnedContext) ?? []
-                var enrichedResponse = response
+            guard let self else { return }
+            let toolsToUse = self.toolAccess.selectTools(for: context, context: learnedContext)
+            var enrichedResponse = response
 
-                if !toolsToUse.isEmpty {
-                    // Run tools and augment response
-                    for tool in toolsToUse.prefix(1) {  // Start with top tool
-                        let result = self?.toolAccess.runTool(tool, input: context)
-                        if let result = result, result.status == "success" {
-                            enrichedResponse += "\n[Tool: \(result.tool)] \(result.result)"
-                        }
+            if !toolsToUse.isEmpty {
+                for tool in toolsToUse.prefix(1) {
+                    let result = self.toolAccess.runTool(tool, input: context)
+                    if result.status == "success" {
+                        enrichedResponse += "\n[Tool: \(result.tool)] \(result.result)"
                     }
                 }
+            }
 
-                self?.currentResponse = enrichedResponse
-                self?.audioRouter.speak(enrichedResponse)
+            DispatchQueue.main.async {
+                self.currentResponse = enrichedResponse
+                self.deliverSpeech(enrichedResponse, mode: .conversing)
             }
         }
+    }
+
+    /// Anna interrupts — e.g. "Jim, this person is lying to you." Voice out is allowed.
+    func deliverProactiveAlert(_ message: String) {
+        interactionMode = .alerting
+        proactiveAlert = message
+        pendingPrompt = nil
+        currentResponse = message
+        deliverSpeech(message, mode: .alerting)
+    }
+
+    func dismissConversation() {
+        interactionMode = .calibrating
+        currentResponse = ""
+        proactiveAlert = ""
+    }
+
+    private func deliverSpeech(_ text: String, mode: InteractionMode) {
+        guard mode.maySpeak else { return }
+        audioRouter.speak(text)
     }
 
     // MARK: - Music (Informed by Learned Context)

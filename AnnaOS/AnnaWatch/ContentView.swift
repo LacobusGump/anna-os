@@ -19,14 +19,11 @@ struct ContentView: View {
                 }
 
                 Spacer(minLength: 0)
-
                 footer
             }
             .padding(12)
         }
     }
-
-    // MARK: - Calibration (default — silent, watch face)
 
     private var calibrationPanel: some View {
         VStack(spacing: 14) {
@@ -68,8 +65,6 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Conversation ("Hey Anna")
-
     private var conversationPanel: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Hey Anna")
@@ -81,18 +76,14 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            Button("Done") {
-                anna.dismissConversation()
-            }
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.orange)
+            Button("Done") { anna.dismissConversation() }
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.orange)
         }
         .padding(12)
         .background(Color.orange.opacity(0.08))
         .cornerRadius(10)
     }
-
-    // MARK: - Proactive alert
 
     private var alertPanel: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -105,18 +96,14 @@ struct ContentView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-            Button("Got it") {
-                anna.dismissConversation()
-            }
-            .font(.system(size: 12, weight: .semibold))
-            .foregroundColor(.orange)
+            Button("Got it") { anna.dismissConversation() }
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundColor(.orange)
         }
         .padding(12)
         .background(Color.red.opacity(0.12))
         .cornerRadius(10)
     }
-
-    // MARK: - Chrome
 
     private var modeBadge: some View {
         HStack {
@@ -124,6 +111,9 @@ struct ContentView: View {
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.orange)
             Spacer()
+            Circle()
+                .fill(anna.phoneConnected ? Color.green : Color.red)
+                .frame(width: 6, height: 6)
             Text(anna.interactionMode.rawValue)
                 .font(.system(size: 9, weight: .medium))
                 .foregroundColor(.gray)
@@ -147,9 +137,7 @@ struct ContentView: View {
 
     private func sensorPill(_ label: String, _ value: String) -> some View {
         VStack(spacing: 2) {
-            Text(label)
-                .font(.system(size: 8))
-                .foregroundColor(.gray)
+            Text(label).font(.system(size: 8)).foregroundColor(.gray)
             Text(value)
                 .font(.system(size: 10, weight: .medium, design: .monospaced))
                 .foregroundColor(.white.opacity(0.7))
@@ -171,15 +159,4 @@ struct ContentView: View {
                 .cornerRadius(8)
         }
     }
-}
-
-#Preview {
-    ContentView()
-        .environmentObject(AnnaCore())
-}
-
-#Preview("Alert") {
-    let anna = AnnaCore()
-    anna.deliverProactiveAlert("Jim, this person is lying to you.")
-    return ContentView().environmentObject(anna)
 }

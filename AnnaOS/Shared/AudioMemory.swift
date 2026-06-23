@@ -1,7 +1,5 @@
 import Foundation
 
-// MARK: - Audio Memory: The Learning System
-
 class AudioMemory {
     var labeledSamples: [LabeledAudioSample] = []
     var contextDistribution: [String: Int] = [
@@ -13,7 +11,14 @@ class AudioMemory {
         "quiet": 0
     ]
 
-    // MARK: - Learning: Record + Label
+    private let storageURL: URL
+
+    init() {
+        let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        storageURL = dir.appendingPathComponent("anna_audio_memory.json")
+        load()
+    }
 
     func recordLabel(audio: AudioSample, label: String, confidence: Double, sensors: SensorState) {
         let sample = LabeledAudioSample(
@@ -25,13 +30,12 @@ class AudioMemory {
             barometer: sensors.barometer,
             accel: sensors.acceleration
         )
-
         labeledSamples.append(sample)
         contextDistribution[label, default: 0] += 1
+        save()
     }
 
     func recordCorrection(audio: AudioSample, userLabel: String, algoGuess: String) {
-        // Store as negative example for the wrong guess
         let sample = LabeledAudioSample(
             waveform: audio.waveform,
             spectrum: audio.spectrum,
@@ -43,20 +47,13 @@ class AudioMemory {
         )
         labeledSamples.append(sample)
         contextDistribution[userLabel, default: 0] += 1
+        save()
     }
 
-    // MARK: - Guessing: Top 3 Context Predictions
-
     func generateGuesses(audio: AudioSample, sensorContext: String) -> [ContextGuess] {
-        var guesses: [ContextGuess] = []
-
-        // Simple Bayesian: find closest labeled samples by spectrum similarity
         let scores = scoreContexts(audio: audio, sensors: sensorContext)
-
-        // Sort by confidence
         let sorted = scores.sorted { $0.value > $1.value }
-
-        // Return top 3
+        var guesses: [ContextGuess] = []
         for (context, score) in sorted.prefix(3) {
             guesses.append(ContextGuess(
                 label: context,
@@ -64,47 +61,34 @@ class AudioMemory {
                 question: questionFor(context: context)
             ))
         }
-
         return guesses.isEmpty ? fallbackGuesses() : guesses
     }
 
     private func scoreContexts(audio: AudioSample, sensors: String) -> [String: Double] {
         var scores: [String: Double] = [:]
-
-        // For each known context, score how likely this audio matches
         for context in contextDistribution.keys {
             let samplesForContext = labeledSamples.filter { $0.label == context }
-
             if samplesForContext.isEmpty {
-                scores[context] = 0.1  // No prior knowledge, low confidence
+                scores[context] = 0.1
                 continue
             }
-
-            // Score = avg similarity to past samples of this context
             let similarities = samplesForContext.map { spectralSimilarity(audio.spectrum, $0.spectrum) }
             let avgSimilarity = similarities.reduce(0, +) / Double(similarities.count)
-
-            // Boost by prior: more samples = more confidence in this category
             let priorBoost = Double(samplesForContext.count) / Double(labeledSamples.count + 1)
             scores[context] = avgSimilarity * (1.0 + priorBoost * 0.3)
         }
-
         return scores
     }
 
     private func spectralSimilarity(_ spec1: [Double], _ spec2: [Double]) -> Double {
         guard spec1.count == spec2.count else { return 0.0 }
-
-        // Cosine similarity on spectrogram
         let dotProduct = zip(spec1, spec2).map(*).reduce(0, +)
         let norm1 = sqrt(spec1.map { $0 * $0 }.reduce(0, +))
         let norm2 = sqrt(spec2.map { $0 * $0 }.reduce(0, +))
-
         guard norm1 > 0 && norm2 > 0 else { return 0.0 }
         return dotProduct / (norm1 * norm2)
     }
 
-    /// Watch-face text only — never spoken (no voice-in-head).
     private func questionFor(context: String) -> String {
         switch context {
         case "cooking": return "Cooking?"
@@ -117,54 +101,79 @@ class AudioMemory {
     }
 
     private func fallbackGuesses() -> [ContextGuess] {
-        return [
+        [
             ContextGuess(label: "quiet", confidence: 0.6, question: "Just listening?"),
             ContextGuess(label: "working", confidence: 0.4, question: "Focused time?"),
             ContextGuess(label: "relaxing", confidence: 0.3, question: "Taking a break?")
         ]
     }
 
-    // MARK: - Most Likely Context (for Claude)
-
     func getMostLikelyContext() -> String {
-        // Return the context with most labels
         guard let (context, _) = contextDistribution.max(by: { $0.value < $1.value }) else {
             return "quiet"
         }
         return context
     }
 
-    // MARK: - Memory Stats
-
     func stats() -> MemoryStats {
-        return MemoryStats(
+        MemoryStats(
             totalLabeled: labeledSamples.count,
             contextCounts: contextDistribution,
-            confidence: Double(labeledSamples.count) / Double(labeledSamples.count + 10)  // 0-1 scale
+            confidence: Double(labeledSamples.count) / Double(labeledSamples.count + 10)
         )
+    }
+
+    private struct Storage: Codable {
+        let samples: [LabeledAudioSample]
+        let distribution: [String: Int]
+    }
+
+    private func save() {
+        let storage = Storage(samples: labeledSamples, distribution: contextDistribution)
+        guard let data = try? JSONEncoder().encode(storage) else { return }
+        try? data.write(to: storageURL, options: .atomic)
+    }
+
+    private func load() {
+        guard let data = try? Data(contentsOf: storageURL),
+              let storage = try? JSONDecoder().decode(Storage.self, from: data) else { return }
+        labeledSamples = storage.samples
+        contextDistribution = storage.distribution
     }
 }
 
-// MARK: - Models
+class MemoryContext {
+    private var environmentLog: [String] = []
+    private var healthLog: [(timestamp: Date, hr: Double, quality: String)] = []
 
-struct ContextGuess {
-    let label: String
-    let confidence: Double  // 0.0 to 1.0
-    let question: String   // "Are you cooking?" "Working on code?" "Time to sleep?"
-}
+    func recordLearning(label: String, sensors: SensorState) {
+        environmentLog.append(label)
+        if environmentLog.count > 100 { environmentLog.removeFirst() }
+        healthLog.append((Date(), sensors.heartRate, label))
+        if healthLog.count > 200 { healthLog.removeFirst() }
+    }
 
-struct LabeledAudioSample {
-    let waveform: [Double]
-    let spectrum: [Double]
-    let label: String
-    let timestamp: Date
-    let hr: Double
-    let barometer: Double
-    let accel: Double
-}
+    func buildContext(sensors: SensorState, learned: String, audioMemory: AudioMemory) -> String {
+        let recent = environmentLog.suffix(5).joined(separator: ", ")
+        let hour = Calendar.current.component(.hour, from: Date())
+        let timeLabel = hour < 12 ? "morning" : hour > 20 ? "night" : "afternoon"
+        let stats = audioMemory.stats()
 
-struct MemoryStats {
-    let totalLabeled: Int
-    let contextCounts: [String: Int]
-    let confidence: Double
+        var context = """
+        You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts.
+
+        Current state:
+        - HR: \(Int(sensors.heartRate)) bpm
+        - Learned context: \(learned)
+        - Environment: \(recent.isEmpty ? "quiet" : recent)
+        - Time: \(timeLabel)
+        - Sleeping: \(sensors.isSleeping ? "yes" : "no")
+        - Audio labels: \(stats.totalLabeled)
+        - Barometer: \(Int(sensors.barometer)) Pa
+        - Acceleration: \(String(format: "%.2f", sensors.acceleration)) g
+
+        Respond concisely. Jim is the only user.
+        """
+        return context
+    }
 }

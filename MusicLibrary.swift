@@ -81,17 +81,26 @@ class MemoryContext {
         }
     }
 
-    func buildContext(sensors: SensorState) -> String {
+    func recordLearning(label: String, sensors: SensorState) {
+        recordEnvironment(label)
+        healthLog.append((Date(), sensors.heartRate, label))
+        if healthLog.count > 200 { healthLog.removeFirst() }
+    }
+
+    func buildContext(sensors: SensorState, learned: String, audioMemory: AudioMemory) -> String {
         let recent = environmentLog.suffix(5).joined(separator: ", ")
         let timeOfDay = Calendar.current.component(.hour, from: Date())
         let isMorning = timeOfDay < 12
         let isNight = timeOfDay > 20
+        let stats = audioMemory.stats()
 
         var context = "Current state:\n"
         context += "- HR: \(Int(sensors.heartRate)) bpm\n"
+        context += "- Learned context: \(learned)\n"
         context += "- Environment: \(recent.isEmpty ? "quiet" : recent)\n"
         context += "- Time: \(isMorning ? "morning" : isNight ? "night" : "afternoon")\n"
         context += "- Sleeping: \(sensors.isSleeping ? "yes" : "no")\n"
+        context += "- Audio labels: \(stats.totalLabeled)\n"
 
         return context
     }

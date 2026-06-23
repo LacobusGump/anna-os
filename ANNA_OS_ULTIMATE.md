@@ -170,6 +170,46 @@ LAYER 5: Hardware (The Portal)
     ├── AR display: Anna's suggestions appear in context (on the deck boards)
     ├── Spatial audio: Anna's voice from earbuds + visual context
     └── Gesture input: hand movements for navigation (hands full = still can control)
+
+└── Future: Palm Display Hardware (Phase 3 Hardware — June 22, 2026 concept)
+
+    LEFT ARM — Watch (flip + stretch mode):
+    ├── Normal mode: Series 11 on wrist, face up. Plain watch.
+    ├── Flip upside down + slide up forearm = two-factor mode unlock
+    ├── Metal accordion expansion band — strain sensor reads stretch
+    ├── 3-second hold at full stretch → micro-release (removes skin pressure) → projector fires
+    ├── MEMS RGB laser pico projector on case back → rasters onto palm (8×8cm)
+    ├── IR dot array: tracks finger position, swipe, tap, pinch
+    └── Each finger calibrated = 10 addressable buttons
+
+    RIGHT ARM — Bracelet (no screen, just projector):
+    ├── Same flip+stretch gesture, no watch face
+    ├── MEMS RGB laser projector only
+    └── Pairs with left arm for dual-projection
+
+    PAPER SCREEN (both arms):
+    ├── Both wrists cocked back, standard 8.5×11 paper between them
+    ├── Left + right lasers hit paper from opposite angles = full color screen
+    ├── Any white surface works: paper, wall, napkin, textbook page
+    ├── Calibrated at factory to standard paper — no setup
+    └── Scales to any surface size held at roughly that angle
+
+    SPECKLE CORRECTION (Anna's role):
+    ├── User reads aloud → Anna hears content → knows what clean render looks like
+    ├── Camera sees speckle-corrupted projection on paper
+    ├── Delta between perfect render and observed = speckle pattern
+    ├── Anna inverts it → applies correction to projector output in real time
+    ├── Same principle as noise-canceling headphones — audio IS the reference signal
+    ├── Calibrated bands give geometry, audio gives semantic ground truth, camera gives corruption map
+    └── Gets better every page — learns paper texture, room lighting, specific speckle signature
+
+    EDUCATION USE CASE:
+    ├── Kid holds up homework worksheet, both wrists back
+    ├── Anna sees the problem (camera + audio), overlays next step directly on page
+    ├── Doesn't give the answer — teaches
+    └── No tablet, no app, just the paper they already have
+
+    James's framing: Megaman. The arm IS the cannon. The gesture is the boot sequence.
 ```
 
 ---

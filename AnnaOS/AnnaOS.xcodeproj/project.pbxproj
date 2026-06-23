@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A62332A680F2C82F9DB2241 /* WatchAudioRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70764A6F867399BE2D077E6F /* WatchAudioRouter.swift */; };
+		0A83A4D1B847755751703249 /* AnnaCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B783C6594C4B5FEB25DCDA /* AnnaCore.swift */; };
+		1793A0F4FA1C8FC4D0A6DAE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77743B81D6326209CE033655 /* Assets.xcassets */; };
+		235B9DED80A44E1B9A8EF0F3 /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */; };
+		2407183FC59EDCB8760A29E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B4C30082EDDC022AFCAF6F /* ContentView.swift */; };
+		2C709E674FCF0DDC4843D5D0 /* AnnaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */; };
+		33E55C4BDCF72DA69B57D3DF /* ClaudeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7D76105AC130349431B4AE /* ClaudeAPI.swift */; };
+		342536E3518C472193AB2D56 /* AudioMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95759B8F2AFD0302863B9E0E /* AudioMemory.swift */; };
+		36937FB9ACC8D8DD273947B8 /* PhoneBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 171F75D6183493B2B7459EA5 /* PhoneBrain.swift */; };
+		369FEA9F043E26DDDA2FFE4C /* AnnaPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C26577EE5029E118FB94C79 /* AnnaPhoneApp.swift */; };
+		479B044F10B2A73ECC444A09 /* AnnaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */; };
+		4F731CAAFC461B6DFD93DBC5 /* AnnaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */; };
+		59D61FE4045F45F82D11F107 /* AnnaWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2CBEE18B77E9302E3DAC2EA /* AnnaWatchApp.swift */; };
+		5C26C71224AEE222EAC3070D /* InteractionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F700DD41792F9A7D958776 /* InteractionMode.swift */; };
+		62E3655FCE1798E4C37C79B0 /* PhoneContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCA01DDA8E39F878F72B22CC /* PhoneContentView.swift */; };
+		6A2FC832EDC40A1F1D376C99 /* MusicLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */; };
+		702DEB8914715F902C42F780 /* SpeechRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8854DE84DF1B8A66B0CD9CA8 /* SpeechRouter.swift */; };
+		7431ED0A338612BE18557ADC /* AnnaMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */; };
+		7AB749066D26EC684CC47958 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D0F29EF2ECC9AE911A5A7A /* KeychainHelper.swift */; };
+		AEEACAC2567FF7349C5FA071 /* HealthSensorEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22334872F2E7762231BBB2BD /* HealthSensorEngine.swift */; };
+		C5E2A68708B069E7F8DB923E /* MusicStreamPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64C06CA401447E205580E58B /* MusicStreamPlayer.swift */; };
+		CBFD600810974E82F5038163 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AE742B656BD61DF8CEA708A /* Assets.xcassets */; };
+		CEC8B3605F95537CD4C439A0 /* AudioMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95759B8F2AFD0302863B9E0E /* AudioMemory.swift */; };
+		D030E1ED8D6E9A3745EC7858 /* InteractionMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F700DD41792F9A7D958776 /* InteractionMode.swift */; };
+		D83D3435625BE37775DEAAC3 /* AudioCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D99A1740ED421CB537D0666 /* AudioCaptureEngine.swift */; };
+		E4658A471A38340594AE4D4F /* WatchConnectivityServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CA48485BB3748D63115A10 /* WatchConnectivityServer.swift */; };
+		FA8B81B47AC1B2BCA2703ED9 /* AnnaWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BC54C73D52C7EC9CC33CE95D /* AnnaWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FA996FDE71EF48671CFECF65 /* ToolAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA480C634F371A268C95FF2 /* ToolAccess.swift */; };
+		FBD26A2AE841ADA83A44A608 /* WatchConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C53865C904ABC4A4DB2121 /* WatchConnectivityClient.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E8015B53206F9B1C4068DC22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D836F25389BEA21FCDC5AC9A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 246AA9B91141EDA1B022B422;
+			remoteInfo = AnnaWatch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FD7546585DB70EE70CB514BE /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				FA8B81B47AC1B2BCA2703ED9 /* AnnaWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		059EEE6B022704632231E37D /* AnnaPhone.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AnnaPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C26577EE5029E118FB94C79 /* AnnaPhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaPhoneApp.swift; sourceTree = "<group>"; };
+		14F700DD41792F9A7D958776 /* InteractionMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractionMode.swift; sourceTree = "<group>"; };
+		171F75D6183493B2B7459EA5 /* PhoneBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneBrain.swift; sourceTree = "<group>"; };
+		1AE742B656BD61DF8CEA708A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		22334872F2E7762231BBB2BD /* HealthSensorEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSensorEngine.swift; sourceTree = "<group>"; };
+		30CA48485BB3748D63115A10 /* WatchConnectivityServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityServer.swift; sourceTree = "<group>"; };
+		3D99A1740ED421CB537D0666 /* AudioCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCaptureEngine.swift; sourceTree = "<group>"; };
+		41249458790E15A052CA6A2E /* AnnaWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnnaWatch.entitlements; sourceTree = "<group>"; };
+		4F7D76105AC130349431B4AE /* ClaudeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeAPI.swift; sourceTree = "<group>"; };
+		64C06CA401447E205580E58B /* MusicStreamPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicStreamPlayer.swift; sourceTree = "<group>"; };
+		69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLibrary.swift; sourceTree = "<group>"; };
+		6DA480C634F371A268C95FF2 /* ToolAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolAccess.swift; sourceTree = "<group>"; };
+		70764A6F867399BE2D077E6F /* WatchAudioRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAudioRouter.swift; sourceTree = "<group>"; };
+		77743B81D6326209CE033655 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		82C53865C904ABC4A4DB2121 /* WatchConnectivityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchConnectivityClient.swift; sourceTree = "<group>"; };
+		83B4C30082EDDC022AFCAF6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		840D540DC82B1741504395AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		86B783C6594C4B5FEB25DCDA /* AnnaCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaCore.swift; sourceTree = "<group>"; };
+		8854DE84DF1B8A66B0CD9CA8 /* SpeechRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRouter.swift; sourceTree = "<group>"; };
+		8B5AEFD12440BFB90471573B /* AnnaPhone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AnnaPhone.entitlements; sourceTree = "<group>"; };
+		90D0F29EF2ECC9AE911A5A7A /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		95759B8F2AFD0302863B9E0E /* AudioMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMemory.swift; sourceTree = "<group>"; };
+		AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaModels.swift; sourceTree = "<group>"; };
+		BC54C73D52C7EC9CC33CE95D /* AnnaWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnnaWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2CBEE18B77E9302E3DAC2EA /* AnnaWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaWatchApp.swift; sourceTree = "<group>"; };
+		DCA01DDA8E39F878F72B22CC /* PhoneContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneContentView.swift; sourceTree = "<group>"; };
+		EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaMessages.swift; sourceTree = "<group>"; };
+		F380D197DBE8444D5B9E1D73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		13F6313D1B4890B31E032D68 /* AnnaWatch */ = {
+			isa = PBXGroup;
+			children = (
+				86B783C6594C4B5FEB25DCDA /* AnnaCore.swift */,
+				41249458790E15A052CA6A2E /* AnnaWatch.entitlements */,
+				D2CBEE18B77E9302E3DAC2EA /* AnnaWatchApp.swift */,
+				77743B81D6326209CE033655 /* Assets.xcassets */,
+				3D99A1740ED421CB537D0666 /* AudioCaptureEngine.swift */,
+				83B4C30082EDDC022AFCAF6F /* ContentView.swift */,
+				22334872F2E7762231BBB2BD /* HealthSensorEngine.swift */,
+				840D540DC82B1741504395AA /* Info.plist */,
+				70764A6F867399BE2D077E6F /* WatchAudioRouter.swift */,
+				82C53865C904ABC4A4DB2121 /* WatchConnectivityClient.swift */,
+			);
+			path = AnnaWatch;
+			sourceTree = "<group>";
+		};
+		414C054E10F7C04EBB2A2E8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				059EEE6B022704632231E37D /* AnnaPhone.app */,
+				BC54C73D52C7EC9CC33CE95D /* AnnaWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6701FA324521C60F43BC4433 = {
+			isa = PBXGroup;
+			children = (
+				D76C4CF345F584AB7FFB905B /* AnnaPhone */,
+				13F6313D1B4890B31E032D68 /* AnnaWatch */,
+				6BCA7856CEF01F8760004DDF /* Shared */,
+				414C054E10F7C04EBB2A2E8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6BCA7856CEF01F8760004DDF /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */,
+				AD5E8BCDB59D08353E5DC1B1 /* AnnaModels.swift */,
+				95759B8F2AFD0302863B9E0E /* AudioMemory.swift */,
+				14F700DD41792F9A7D958776 /* InteractionMode.swift */,
+				69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		D76C4CF345F584AB7FFB905B /* AnnaPhone */ = {
+			isa = PBXGroup;
+			children = (
+				8B5AEFD12440BFB90471573B /* AnnaPhone.entitlements */,
+				0C26577EE5029E118FB94C79 /* AnnaPhoneApp.swift */,
+				1AE742B656BD61DF8CEA708A /* Assets.xcassets */,
+				4F7D76105AC130349431B4AE /* ClaudeAPI.swift */,
+				F380D197DBE8444D5B9E1D73 /* Info.plist */,
+				90D0F29EF2ECC9AE911A5A7A /* KeychainHelper.swift */,
+				64C06CA401447E205580E58B /* MusicStreamPlayer.swift */,
+				171F75D6183493B2B7459EA5 /* PhoneBrain.swift */,
+				DCA01DDA8E39F878F72B22CC /* PhoneContentView.swift */,
+				8854DE84DF1B8A66B0CD9CA8 /* SpeechRouter.swift */,
+				6DA480C634F371A268C95FF2 /* ToolAccess.swift */,
+				30CA48485BB3748D63115A10 /* WatchConnectivityServer.swift */,
+			);
+			path = AnnaPhone;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		246AA9B91141EDA1B022B422 /* AnnaWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A5BADD1F2096AA34DB4C699 /* Build configuration list for PBXNativeTarget "AnnaWatch" */;
+			buildPhases = (
+				A515C19A3C9BF1CFE007DE4A /* Sources */,
+				9C09ACAB664B5D002114839D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnnaWatch;
+			packageProductDependencies = (
+			);
+			productName = AnnaWatch;
+			productReference = BC54C73D52C7EC9CC33CE95D /* AnnaWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9572DEEA47992B99A3B50569 /* AnnaPhone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4E50DA37B75516F520CBB72 /* Build configuration list for PBXNativeTarget "AnnaPhone" */;
+			buildPhases = (
+				89C8FAEE1D935D3F5E799E2D /* Sources */,
+				1AB7C7C138A221FE116D8EBE /* Resources */,
+				FD7546585DB70EE70CB514BE /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC8D37D96CF0896129BB1ACF /* PBXTargetDependency */,
+			);
+			name = AnnaPhone;
+			packageProductDependencies = (
+			);
+			productName = AnnaPhone;
+			productReference = 059EEE6B022704632231E37D /* AnnaPhone.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D836F25389BEA21FCDC5AC9A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					246AA9B91141EDA1B022B422 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					9572DEEA47992B99A3B50569 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 80EF822C0C94F23A1404819C /* Build configuration list for PBXProject "AnnaOS" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6701FA324521C60F43BC4433;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 414C054E10F7C04EBB2A2E8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9572DEEA47992B99A3B50569 /* AnnaPhone */,
+				246AA9B91141EDA1B022B422 /* AnnaWatch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AB7C7C138A221FE116D8EBE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CBFD600810974E82F5038163 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9C09ACAB664B5D002114839D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1793A0F4FA1C8FC4D0A6DAE5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		89C8FAEE1D935D3F5E799E2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				479B044F10B2A73ECC444A09 /* AnnaMessages.swift in Sources */,
+				4F731CAAFC461B6DFD93DBC5 /* AnnaModels.swift in Sources */,
+				369FEA9F043E26DDDA2FFE4C /* AnnaPhoneApp.swift in Sources */,
+				342536E3518C472193AB2D56 /* AudioMemory.swift in Sources */,
+				33E55C4BDCF72DA69B57D3DF /* ClaudeAPI.swift in Sources */,
+				5C26C71224AEE222EAC3070D /* InteractionMode.swift in Sources */,
+				7AB749066D26EC684CC47958 /* KeychainHelper.swift in Sources */,
+				235B9DED80A44E1B9A8EF0F3 /* MusicLibrary.swift in Sources */,
+				C5E2A68708B069E7F8DB923E /* MusicStreamPlayer.swift in Sources */,
+				36937FB9ACC8D8DD273947B8 /* PhoneBrain.swift in Sources */,
+				62E3655FCE1798E4C37C79B0 /* PhoneContentView.swift in Sources */,
+				702DEB8914715F902C42F780 /* SpeechRouter.swift in Sources */,
+				FA996FDE71EF48671CFECF65 /* ToolAccess.swift in Sources */,
+				E4658A471A38340594AE4D4F /* WatchConnectivityServer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A515C19A3C9BF1CFE007DE4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A83A4D1B847755751703249 /* AnnaCore.swift in Sources */,
+				7431ED0A338612BE18557ADC /* AnnaMessages.swift in Sources */,
+				2C709E674FCF0DDC4843D5D0 /* AnnaModels.swift in Sources */,
+				59D61FE4045F45F82D11F107 /* AnnaWatchApp.swift in Sources */,
+				D83D3435625BE37775DEAAC3 /* AudioCaptureEngine.swift in Sources */,
+				CEC8B3605F95537CD4C439A0 /* AudioMemory.swift in Sources */,
+				2407183FC59EDCB8760A29E7 /* ContentView.swift in Sources */,
+				AEEACAC2567FF7349C5FA071 /* HealthSensorEngine.swift in Sources */,
+				D030E1ED8D6E9A3745EC7858 /* InteractionMode.swift in Sources */,
+				6A2FC832EDC40A1F1D376C99 /* MusicLibrary.swift in Sources */,
+				0A62332A680F2C82F9DB2241 /* WatchAudioRouter.swift in Sources */,
+				FBD26A2AE841ADA83A44A608 /* WatchConnectivityClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CC8D37D96CF0896129BB1ACF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 246AA9B91141EDA1B022B422 /* AnnaWatch */;
+			targetProxy = E8015B53206F9B1C4068DC22 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		281140AC01C7B560FC336749 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AnnaWatch/AnnaWatch.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AnnaWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lacobusgump.anna.watch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		5B16E368EB33894A1BAC8D8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AnnaPhone/AnnaPhone.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AnnaPhone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lacobusgump.anna.phone;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		5E9EB8B39E25440DCDCCC1C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		5F889FFCFD9C1DC760D49047 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		7631F6F40D9F02E4A66D830E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AnnaWatch/AnnaWatch.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AnnaWatch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lacobusgump.anna.watch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		A993196AFF10EA10712DB4CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AnnaPhone/AnnaPhone.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AnnaPhone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lacobusgump.anna.phone;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		80EF822C0C94F23A1404819C /* Build configuration list for PBXProject "AnnaOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5F889FFCFD9C1DC760D49047 /* Debug */,
+				5E9EB8B39E25440DCDCCC1C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8A5BADD1F2096AA34DB4C699 /* Build configuration list for PBXNativeTarget "AnnaWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7631F6F40D9F02E4A66D830E /* Debug */,
+				281140AC01C7B560FC336749 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C4E50DA37B75516F520CBB72 /* Build configuration list for PBXNativeTarget "AnnaPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5B16E368EB33894A1BAC8D8B /* Debug */,
+				A993196AFF10EA10712DB4CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D836F25389BEA21FCDC5AC9A /* Project object */;
+}
