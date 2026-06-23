@@ -36,6 +36,40 @@ struct PhoneContentView: View {
                     }
                 }
 
+                Section("Jim — health substrate") {
+                    HStack {
+                        Text("Phenotype")
+                        Spacer()
+                        Text("Red hair · blue eyes · MC1R")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    Text("Paste labs, meds, variant calls — Anna learns you, not a generic user. Granularity speeds synch.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    TextField("MC1R / genotype notes (rs1805007, etc.)", text: $brain.mc1rNotes, axis: .vertical)
+                        .lineLimit(2...4)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+
+                    TextEditor(text: $brain.healthRecords)
+                        .frame(minHeight: 120)
+                        .font(.caption)
+                        .overlay(alignment: .topLeading) {
+                            if brain.healthRecords.isEmpty {
+                                Text("Paste health records here…")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary.opacity(0.6))
+                                    .padding(.top, 8)
+                                    .padding(.leading, 4)
+                                    .allowsHitTesting(false)
+                            }
+                        }
+
+                    Button("Save Health Profile") { brain.saveHealthProfile() }
+                }
+
                 Section("Mac Mini Tools (optional)") {
                     TextField("http://192.168.1.100:8765", text: $brain.macHost)
                         .textInputAutocapitalization(.never)

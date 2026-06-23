@@ -164,13 +164,16 @@ class MemoryContext {
         let timeLabel = hour < 12 ? "morning" : hour > 20 ? "night" : "afternoon"
         let stats = audioMemory.stats()
         let timing = intentionalUnderstanding.contextBlock()
+        let health = JimHealthProfile.shared.contextBlock()
 
         var context = """
         \(JimProfile.constitution)
 
         \(JimProfile.coreMemory)
 
-        You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts. Keep learning Jim — this context grows with every tap and sample.
+        You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts. Keep learning Jim — this context grows with every tap and sample. Jim-only — not a template user.
+
+        \(health)
 
         \(timing)
 

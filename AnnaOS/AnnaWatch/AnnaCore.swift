@@ -192,6 +192,9 @@ final class AnnaCore: NSObject, ObservableObject {
         case .error:
             currentResponse = message.payload
 
+        case .syncMemory:
+            JimHealthProfile.shared.applySyncedSummary(message.payload)
+
         default:
             break
         }

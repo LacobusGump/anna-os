@@ -7,8 +7,11 @@ final class PhoneBrain: ObservableObject {
     @Published var isProcessing = false
     @Published var apiKey: String = KeychainHelper.loadAPIKey()
     @Published var macHost: String = KeychainHelper.loadMacHost()
+    @Published var healthRecords: String = JimHealthProfile.shared.healthRecordsText
+    @Published var mc1rNotes: String = JimHealthProfile.shared.mc1rGenotypeNotes
 
     private let claude = ClaudeAPI()
+    private let health = JimHealthProfile.shared
     private let tools = ToolAccess()
     private let music = MusicStreamPlayer()
     private let speech = SpeechRouter()
@@ -25,6 +28,13 @@ final class PhoneBrain: ObservableObject {
     func saveSettings() {
         KeychainHelper.saveAPIKey(apiKey)
         KeychainHelper.saveMacHost(macHost)
+    }
+
+    func saveHealthProfile() {
+        health.updateHealthRecords(healthRecords)
+        health.updateGenotypeNotes(mc1rNotes)
+        let summary = health.summaryForWatchSync()
+        watch.send(AnnaMessage(type: .syncMemory, payload: summary))
     }
 
     private func handleWatchMessage(_ message: AnnaMessage) {
@@ -49,6 +59,12 @@ final class PhoneBrain: ObservableObject {
         case .phoneStatus:
             watchConnected = message.payload == "watch_ready" || watch.isWatchReachable
             watch.send(AnnaMessage(type: .phoneStatus, payload: "connected"))
+            if !health.healthRecordsText.isEmpty || !health.mc1rGenotypeNotes.isEmpty {
+                watch.send(AnnaMessage(type: .syncMemory, payload: health.summaryForWatchSync()))
+            }
+
+        case .syncMemory:
+            break
 
         default:
             break
@@ -58,7 +74,11 @@ final class PhoneBrain: ObservableObject {
     private func processClaudeRequest(_ context: String, learnedContext: String) {
         isProcessing = true
         let key = KeychainHelper.loadAPIKey()
-        let fullContext = JimProfile.systemPreamble() + "\n\n---\n\n" + context
+        let fullContext = JimProfile.systemPreamble()
+            + "\n\n---\n\n"
+            + health.contextBlock()
+            + "\n\n---\n\n"
+            + context
 
         claude.askClaude(context: fullContext, apiKey: key) { [weak self] result in
             guard let self else { return }
