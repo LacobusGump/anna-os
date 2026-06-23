@@ -6,6 +6,7 @@ struct PhoneContentView: View {
     @EnvironmentObject var coupling: CouplingLicense
     @State private var showKey = false
     @State private var showLicenseKey = false
+    @State private var showShCamera = false
 
     var body: some View {
         NavigationStack {
@@ -84,6 +85,33 @@ struct PhoneContentView: View {
                             .foregroundColor(.secondary)
                     }
                     Button("Save Security") { brain.saveSecurity() }
+                }
+
+                Section("sh — private visual memory") {
+                    Text("Encrypted info.sh tier. On Venmo with you: silent screen learn → throw vault. Face Presence when you're already looking — no confirm spam.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    HStack {
+                        Text("info.sh stored")
+                        Spacer()
+                        Text("\(brain.shRecordCount)")
+                            .foregroundColor(.secondary)
+                    }
+                    Toggle("Companion (Venmo / finance)", isOn: $brain.shCompanionEnabled)
+                        .onChange(of: brain.shCompanionEnabled) { _, on in
+                            brain.setShCompanion(on)
+                        }
+                    Button("Picture with me") { showShCamera = true }
+                    if !brain.shMessage.isEmpty {
+                        Text(brain.shMessage)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                .sheet(isPresented: $showShCamera) {
+                    CameraCapture { image in
+                        brain.captureShPhoto(image)
+                    }
                 }
 
                 Section("Claude API Key") {
@@ -184,10 +212,13 @@ struct PhoneContentView: View {
                     HStack {
                         Text("Phenotype")
                         Spacer()
-                        Text("Red hair · blue eyes · MC1R")
+                        Text("Red hair · blue eyes · fair thin · MC1R")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
+                    TextField("Blood type (e.g. O+)", text: $brain.bloodType)
+                        .textInputAutocapitalization(.characters)
+                        .autocorrectionDisabled()
                     Text("Paste labs, meds, variant calls — Anna learns you, not a generic user. Granularity speeds synch.")
                         .font(.caption)
                         .foregroundColor(.secondary)

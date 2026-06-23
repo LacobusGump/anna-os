@@ -12,6 +12,11 @@ struct AnnaPhoneApp: App {
                 .environmentObject(brain)
                 .environmentObject(security)
                 .environmentObject(coupling)
+                .onAppear {
+                    if ShLayer.shared.companionEnabled {
+                        ShCompanion.shared.start()
+                    }
+                }
         }
     }
 }

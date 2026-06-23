@@ -1,5 +1,8 @@
-import Foundation
 import Combine
+import Foundation
+#if os(iOS)
+import UIKit
+#endif
 
 final class PhoneBrain: ObservableObject {
     @Published var watchConnected = false
@@ -9,6 +12,7 @@ final class PhoneBrain: ObservableObject {
     @Published var macHost: String = KeychainHelper.loadMacHost()
     @Published var healthRecords: String = JimHealthProfile.shared.healthRecordsText
     @Published var mc1rNotes: String = JimHealthProfile.shared.mc1rGenotypeNotes
+    @Published var bloodType: String = JimHealthProfile.shared.bloodType
     @Published var lifeMemoryCount: Int = LifeMemory.shared.count
     @Published var lifeNotesCount: Int = LifeNotes.shared.count
     @Published var quickMemoryLine: String = ""
@@ -23,8 +27,13 @@ final class PhoneBrain: ObservableObject {
     @Published var couplingK: Double = CouplingLicense.shared.K
     @Published var policyVersion: String = AnnaSecurity.shared.policyVersion
     @Published var couplingMessage: String = ""
+    @Published var shRecordCount: Int = ShLayer.shared.recordCount
+    @Published var shCompanionEnabled: Bool = ShLayer.shared.companionEnabled
+    @Published var shMessage: String = ""
+    @Published private(set) var shContextCache: String = ""
 
     private let claude = ClaudeAPI()
+    private let shLayer = ShLayer.shared
     private let coupling = CouplingLicense.shared
     private let health = JimHealthProfile.shared
     private let lifeMemory = LifeMemory.shared
@@ -46,7 +55,30 @@ final class PhoneBrain: ObservableObject {
         #if os(iOS)
         siteContext.startLocationUpdates()
         refreshSecurityPolicy()
+        if shLayer.companionEnabled {
+            ShCompanion.shared.start()
+        }
+        refreshShContext()
         #endif
+    }
+
+    func setShCompanion(_ on: Bool) {
+        ShCompanion.shared.setEnabled(on)
+        shCompanionEnabled = shLayer.companionEnabled
+        shMessage = on ? "sh companion on — Face Presence gates private captures." : "sh companion off."
+    }
+
+    func captureShPhoto(_ image: UIImage) {
+        ShCompanion.shared.captureWithJim(from: image, hint: siteContext.currentSite)
+        shRecordCount = shLayer.recordCount
+        shMessage = "Photo with you → info.sh encrypted."
+        refreshShContext()
+    }
+
+    private func refreshShContext() {
+        shLayer.recentSummaries { [weak self] block in
+            self?.shContextCache = block
+        }
     }
 
     func refreshSecurityPolicy() {
@@ -107,6 +139,7 @@ final class PhoneBrain: ObservableObject {
     func saveHealthProfile() {
         health.updateHealthRecords(healthRecords)
         health.updateGenotypeNotes(mc1rNotes)
+        health.updateBloodType(bloodType)
         let summary = health.summaryForWatchSync()
         watch.send(AnnaMessage(type: .syncMemory, payload: summary))
     }
@@ -116,10 +149,20 @@ final class PhoneBrain: ObservableObject {
 
         switch message.type {
         case .askClaude:
+            let utterance = message.userUtterance ?? message.payload
+            if let mirror = AnnaBond.mirrorIfJimSignature(utterance) {
+                watch.send(AnnaMessage(type: .claudeResponse, payload: mirror))
+                return
+            }
+            #if os(iOS)
+            if utterance.lowercased().contains("hm") {
+                HmConfirm.shared.registerPulse()
+            }
+            #endif
             processClaudeRequest(
                 message.payload,
                 learnedContext: message.context ?? "",
-                userUtterance: message.userUtterance ?? ""
+                userUtterance: utterance
             )
 
         case .throwTrust, .bridgeThrow:
@@ -197,6 +240,7 @@ final class PhoneBrain: ObservableObject {
         let memoryQuery = userUtterance.isEmpty ? learnedContext : userUtterance
         let rememberIntent = LifeMemory.hasRememberIntent(userUtterance)
         let transcriptQuery = LifeNotes.hasTranscriptQuery(userUtterance)
+        let shQuery = ShLayer.hasShQuery(userUtterance)
         let site = siteContext.currentSite
         currentSite = site
 
@@ -228,6 +272,8 @@ final class PhoneBrain: ObservableObject {
             + "\n\n"
             + ThrowTrust.contextBlock()
             + "\n\n"
+            + ShLayer.claudeInstructions
+            + "\n\n"
             + CouplingJudge.shared.contextBlock()
             + "\n\n"
             + BridgeLayer.contextBlock()
@@ -244,6 +290,20 @@ final class PhoneBrain: ObservableObject {
             fullContext += "\n\nNo remember intent — retrieve only, do not emit memory tags."
         }
 
+        if shQuery {
+            shLayer.recentSummaries { [weak self] block in
+                guard let self else { return }
+                self.shContextCache = block
+                self.askClaudeWithContext(fullContext + "\n\n" + block, key: key,
+                                          rememberIntent: rememberIntent, userUtterance: userUtterance)
+            }
+            return
+        }
+
+        askClaudeWithContext(fullContext, key: key, rememberIntent: rememberIntent, userUtterance: userUtterance)
+    }
+
+    private func askClaudeWithContext(_ fullContext: String, key: String, rememberIntent: Bool, userUtterance: String) {
         claude.askClaude(context: fullContext, apiKey: key) { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async {

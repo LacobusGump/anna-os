@@ -47,6 +47,7 @@ final class AnnaSecurity: ObservableObject {
     - Music CDN separate toggle — jsDelivr only, no account coupling.
     - Remember consent still gates writes even on relay paths.
     - Egress logged locally (~/.anna equivalent) — never sent anywhere.
+    - sh layer: info.sh blobs encrypted separately; Face Presence gates read/write; never syncs to watch.
     - Security policy updates via begump.com/anna/security-policy.json — memories never leave device.
     - Mac Mini: run Sentinel from Anna:OS/security/sentinel — tripwire, portcheck, connwatch.
     """

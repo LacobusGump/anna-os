@@ -20,8 +20,16 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Anna takes pictures with you — encrypted sh memory, face-gated.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Anna confirms it's you before reading financial or private sh memory.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Anna matches memories to where you are — work deck list vs home deck list.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Anna ingests screenshots you're viewing — Venmo, receipts — into encrypted sh memory.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Anna may save sh captures locally — encrypted, never uploaded.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

@@ -82,6 +82,9 @@ enum ThrowTrust {
         if q.contains("remember") || q.contains("doc") || q.contains("text") {
             return .knowledge
         }
+        if q.contains("venmo") || q.contains("paid") || q.contains("receipt") || q.contains("bank") {
+            return .data
+        }
         return .data
     }
 
@@ -105,6 +108,7 @@ enum ThrowTrust {
         Anna never says "full" or "can't". Route by intention; Mac compresses and vaults. \
         Query ("what did they say") reads the trusted layer. Throw hands more INTO it. \
         No wearable lens — phone bridges (DCIM, internet, world). Every layer throw-away synced to Mac. \
+        sh layer: financial/private screens → info.sh encrypted, face-gated, silent on Venmo with Jim. \
         For Jim: trust mode ON — yes first. Wrist reply ≤ 6 words when pure throw.
         """
     }
