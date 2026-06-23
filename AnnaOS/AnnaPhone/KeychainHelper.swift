@@ -20,7 +20,7 @@ enum KeychainHelper {
     }
 
     static func loadMacHost() -> String {
-        load(account: macHostAccount) ?? "http://192.168.1.100:8765"
+        load(account: macHostAccount) ?? "http://192.168.1.164:8765"
     }
 
     static func saveLicenseKey(_ key: String) {
