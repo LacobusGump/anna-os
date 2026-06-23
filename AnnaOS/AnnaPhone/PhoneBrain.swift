@@ -10,6 +10,7 @@ final class PhoneBrain: ObservableObject {
     @Published var healthRecords: String = JimHealthProfile.shared.healthRecordsText
     @Published var mc1rNotes: String = JimHealthProfile.shared.mc1rGenotypeNotes
     @Published var lifeMemoryCount: Int = LifeMemory.shared.count
+    @Published var lifeNotesCount: Int = LifeNotes.shared.count
     @Published var quickMemoryLine: String = ""
     @Published var memoryMessage: String = ""
     @Published var lastCallNotes: String = CallContext.shared.lastCallNotes
@@ -27,6 +28,7 @@ final class PhoneBrain: ObservableObject {
     private let coupling = CouplingLicense.shared
     private let health = JimHealthProfile.shared
     private let lifeMemory = LifeMemory.shared
+    private let lifeNotes = LifeNotes.shared
     private let siteContext = SiteContext.shared
     private let callContext = CallContext.shared
     private let tools = ToolAccess()
@@ -120,6 +122,14 @@ final class PhoneBrain: ObservableObject {
                 userUtterance: message.userUtterance ?? ""
             )
 
+        case .throwTrust, .bridgeThrow:
+            processThrow(
+                payload: message.payload,
+                learnedContext: message.context ?? "",
+                userUtterance: message.userUtterance ?? message.payload,
+                viaBridge: message.type == .bridgeThrow
+            )
+
         case .playMusic:
             music.play(filename: message.payload)
             watch.send(AnnaMessage(
@@ -139,12 +149,45 @@ final class PhoneBrain: ObservableObject {
                 watch.send(AnnaMessage(type: .syncMemory, payload: health.summaryForWatchSync()))
             }
             syncLifeMemoryToWatch()
+            syncLifeNotesToWatch()
 
-        case .syncMemory, .syncLifeMemory:
+        case .syncMemory, .syncLifeMemory, .syncLifeNotes, .throwAck:
             break
 
         default:
             break
+        }
+    }
+
+    private func processThrow(payload: String, learnedContext: String, userUtterance: String, viaBridge: Bool = false) {
+        isProcessing = true
+        let req = ThrowRequest.decodePayload(payload)
+            ?? ThrowTrust.parse(userUtterance, site: siteContext.currentSite)
+        currentSite = siteContext.currentSite
+
+        var toolInput = [
+            "utterance": req.utterance,
+            "intention": req.intention.rawValue,
+            "site": req.site,
+            "trust": req.trustMode ? "jim" : "ask",
+            "bridge": viaBridge ? "phone" : "direct",
+            "layers": BridgeLayer.syncLayers,
+        ] as [String: Any]
+        let inputJSON = (try? JSONSerialization.data(withJSONObject: toolInput))
+            .flatMap { String(data: $0, encoding: .utf8) } ?? req.utterance
+
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self else { return }
+            let result = self.tools.runTool(.throwTrust, input: inputJSON)
+            let ack = ThrowTrust.wristAck(
+                intention: req.intention,
+                macResult: result.status == "success" ? result.result : nil
+            )
+            DispatchQueue.main.async {
+                self.isProcessing = false
+                self.lastResponse = ack
+                self.watch.send(AnnaMessage(type: .throwAck, payload: ack))
+            }
         }
     }
 
@@ -153,12 +196,23 @@ final class PhoneBrain: ObservableObject {
         let key = KeychainHelper.loadAPIKey()
         let memoryQuery = userUtterance.isEmpty ? learnedContext : userUtterance
         let rememberIntent = LifeMemory.hasRememberIntent(userUtterance)
+        let transcriptQuery = LifeNotes.hasTranscriptQuery(userUtterance)
         let site = siteContext.currentSite
         currentSite = site
+
+        if !userUtterance.isEmpty {
+            lifeNotes.recordJimUtterance(userUtterance, contextLabel: learnedContext)
+            if LifeNotes.hasNoteCaptureIntent(userUtterance) {
+                lifeNotes.ingestQuotedSpeech(from: userUtterance)
+            }
+            lifeNotesCount = lifeNotes.count
+        }
 
         var fullContext = JimProfile.systemPreamble()
             + "\n\n---\n\n"
             + LifeMemory.claudeInstructions
+            + "\n\n"
+            + LifeNotes.claudeInstructions
             + "\n\n"
             + siteContext.contextBlock()
             + "\n\n"
@@ -168,7 +222,15 @@ final class PhoneBrain: ObservableObject {
             + "\n\n"
             + lifeMemory.inventoryBlock(site: site)
             + "\n\n"
+            + (transcriptQuery ? lifeNotes.contextBlock(for: userUtterance, site: site) : lifeNotes.contextBlock(for: memoryQuery, site: site))
+            + "\n\n"
             + BegumpBridge.contextBlock()
+            + "\n\n"
+            + ThrowTrust.contextBlock()
+            + "\n\n"
+            + CouplingJudge.shared.contextBlock()
+            + "\n\n"
+            + BridgeLayer.contextBlock()
             + "\n\n"
             + AnnaSecurity.shared.contextBlock()
             + "\n\n---\n\n"
@@ -190,8 +252,11 @@ final class PhoneBrain: ObservableObject {
                 case .success(let response):
                     let cleaned = self.lifeMemory.ingestFromResponse(response, allowStore: rememberIntent)
                     self.lifeMemoryCount = self.lifeMemory.count
+                    self.lifeNotes.recordAnnaReply(cleaned, replyingTo: userUtterance)
+                    self.lifeNotesCount = self.lifeNotes.count
                     self.egressCount = NetworkGuard.recentEgressCount
                     self.syncLifeMemoryToWatch()
+                    self.syncLifeNotesToWatch()
                     let enriched = self.enrichWithTools(
                         cleaned,
                         query: userUtterance.isEmpty ? context : userUtterance,
@@ -223,7 +288,10 @@ final class PhoneBrain: ObservableObject {
 
     func saveCallContext() {
         callContext.updateNotes(lastCallNotes)
-        memoryMessage = "Call context saved."
+        lifeNotes.recordCallNotes(lastCallNotes, contact: callContext.contactName)
+        lifeNotesCount = lifeNotes.count
+        syncLifeNotesToWatch()
+        memoryMessage = "Call logged — verbatim in Life Notes."
     }
 
     func saveManualSite() {
@@ -246,5 +314,10 @@ final class PhoneBrain: ObservableObject {
     private func syncLifeMemoryToWatch() {
         guard lifeMemory.count > 0 else { return }
         watch.send(AnnaMessage(type: .syncLifeMemory, payload: lifeMemory.jsonSnapshot()))
+    }
+
+    private func syncLifeNotesToWatch() {
+        guard lifeNotes.count > 0 else { return }
+        watch.send(AnnaMessage(type: .syncLifeNotes, payload: lifeNotes.jsonSnapshot()))
     }
 }

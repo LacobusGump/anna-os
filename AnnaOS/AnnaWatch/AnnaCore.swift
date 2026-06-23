@@ -17,6 +17,7 @@ final class AnnaCore: NSObject, ObservableObject {
     @Published var pendingPrompt: ContextGuess?
     @Published var timingObservationCount: Int = 0
     @Published var lifeMemoryCount: Int = 0
+    @Published var lifeNotesCount: Int = 0
 
     private let sensorEngine: SensorProviding
     private let audioEngine: AudioCapturing
@@ -66,6 +67,7 @@ final class AnnaCore: NSObject, ObservableObject {
         phone.send(AnnaMessage(type: .phoneStatus, payload: "watch_ready"))
         phoneConnected = phone.isPhoneReachable
         lifeMemoryCount = LifeMemory.shared.count
+        lifeNotesCount = LifeNotes.shared.count
     }
 
     private func startExtendedRuntime() {
@@ -151,6 +153,25 @@ final class AnnaCore: NSObject, ObservableObject {
 
     private func sendConversationRequest(utterance: String) {
         let learnedContext = audioMemory.getMostLikelyContext()
+
+        let voice = VoiceIdentity.shared.classify(audio: audioEngine.currentSample())
+        if voice.speaker == .jim { VoiceIdentity.shared.calibrateJim(from: audioEngine.currentSample()) }
+
+        if ThrowTrust.hasThrowIntent(utterance) {
+            let req = ThrowTrust.parse(utterance, site: learnedContext)
+            let needsBridge = !BridgeLayer.watchCanSolve(intention: req.intention, utterance: utterance)
+            phone.send(AnnaMessage(
+                type: needsBridge ? .bridgeThrow : .throwTrust,
+                payload: req.jsonPayload(),
+                context: learnedContext,
+                userUtterance: utterance
+            ))
+            currentResponse = needsBridge
+                ? BridgeLayer.bridgeAck(intention: req.intention)
+                : ThrowTrust.wristAck(intention: req.intention, macResult: nil)
+            return
+        }
+
         let context = memoryContext.buildContext(
             sensors: sensorState,
             learned: learnedContext,
@@ -213,6 +234,14 @@ final class AnnaCore: NSObject, ObservableObject {
         case .syncLifeMemory:
             LifeMemory.shared.applySnapshot(message.payload)
             lifeMemoryCount = LifeMemory.shared.count
+
+        case .syncLifeNotes:
+            LifeNotes.shared.applySnapshot(message.payload)
+            lifeNotesCount = LifeNotes.shared.count
+
+        case .throwAck:
+            currentResponse = message.payload
+            deliverSpeech(message.payload, mode: interactionMode)
 
         default:
             break

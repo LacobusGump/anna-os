@@ -6,6 +6,7 @@ final class ToolAccess {
         case pathogenicity_score, shape_compute, tune_coherence
         case harmonic_analysis, trace_fraud, knowledge_graph, oracle_predict
         case turbo_compile
+        case throwTrust = "throw"
     }
 
     private let macHost: String
@@ -26,6 +27,7 @@ final class ToolAccess {
         if q.contains("fraud") || q.contains("trace") { selected.append(.trace_fraud) }
         if c.contains("coding") { selected.append(.turbo_compile) }
         if c.contains("sleeping") || c.contains("health") { selected.append(.sensor_analysis) }
+        if ThrowTrust.hasThrowIntent(q) { selected.insert(.throwTrust, at: 0) }
 
         return Array(Set(selected)).prefix(3).map { $0 }
     }

@@ -11,6 +11,10 @@ enum AnnaMessageType: String, Codable {
     case phoneStatus
     case syncMemory
     case syncLifeMemory
+    case throwTrust = "throw"
+    case throwAck
+    case bridgeThrow
+    case syncLifeNotes
     case error
 }
 

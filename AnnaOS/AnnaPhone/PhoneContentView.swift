@@ -138,6 +138,38 @@ struct PhoneContentView: View {
                     }
                 }
 
+                Section("Symbio — Jim · Watch · Phone · M4") {
+                    Text("Held together anywhere by begump.com. LAN → M4 :8765. Away → begump relay.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    ForEach(SymbioStack.topology, id: \.0.rawValue) { node, role in
+                        HStack(alignment: .top) {
+                            Text(node.rawValue)
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .frame(width: 44, alignment: .leading)
+                            Text(role)
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                    Text("Throw-away layers: \(BridgeLayer.syncLayers.joined(separator: ", "))")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+
+                Section("Life Notes — verbatim trust") {
+                    HStack {
+                        Text("Captured")
+                        Spacer()
+                        Text("\(brain.lifeNotesCount)")
+                            .foregroundColor(.secondary)
+                    }
+                    Text("Jim opted in: Anna records what was actually said — Jim vs other, build/call/do/need. Ask on watch: \"what did they actually say when they told me to build\" then throw.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+
                 Section("Last call (disambiguate lists)") {
                     Text("Paste who called and what about — e.g. Johnson deck, 2x6 order. Future: Anna on her own number.")
                         .font(.caption)

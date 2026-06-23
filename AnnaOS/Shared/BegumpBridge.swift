@@ -1,7 +1,7 @@
 import Foundation
 
-/// begump.com relay — Mac Mini ↔ iPhone ↔ Watch when LAN isn't enough.
-/// Music already streams from begump CDN. Tools + memory sync can use the same edge eventually.
+/// begump.com — glue for Jim · Watch · Phone · M4 anywhere.
+/// LAN when home; relay when not. Music, policy, tools, sync on same edge family.
 enum BegumpBridge {
     static let relayBase = "https://begump.com/anna"
     static let musicCDN = "https://cdn.jsdelivr.net/gh/LacobusGump/music2.0@main"
@@ -38,17 +38,12 @@ enum BegumpBridge {
     /// Human-readable architecture block for Claude context.
     static func contextBlock() -> String {
         """
-        BEGUMP BRIDGE (Mac ↔ wrist relay):
-        - Jim's computer (Mac Mini) runs heavy tools locally when on LAN.
-        - When LAN fails or watch needs computer without iPhone in pocket: begump.com relays.
-        - Music already uses begump CDN (same origin family as site).
-        - Future paths on \(relayBase):
-          /tool/{name} — prime, fold, compile from Mac
-          /sync/life-memory — watch snapshot when phone is away
-          /sync/health — health substrate
-          /watch/message — Hey Anna round-trip via cloud edge
-        - Jim-only. Air-gapped writes still require "remember" on any path.
-        - v1: direct LAN (iPhone settings). v2: begump fallback. v3: watch talks to begump when phone sleeping.
+        BEGUMP GLUE — holds Jim · Watch · Phone · M4 together anywhere:
+        - Home: Phone bridges to M4 LAN (:8765 throw/tools, :1370 quantum, :8890 license)
+        - Away: \(relayBase) relays same stack — tools, sync, policy, music CDN
+        - Paths: /tool/{name} · /sync/life-memory · /sync/health · /watch/message · /security-policy.json
+        - Coupling license recouple from license.begump.com — policy only, not memories
+        - Relay OFF by default (Jim toggles). Throw-away vault always lands on M4 when reachable.
         """
     }
 }

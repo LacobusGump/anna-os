@@ -167,6 +167,9 @@ class MemoryContext {
         let timing = intentionalUnderstanding.contextBlock()
         let health = JimHealthProfile.shared.contextBlock()
         let lifeMemory = LifeMemory.shared.contextBlock(for: userUtterance)
+        let lifeNotes = LifeNotes.hasTranscriptQuery(userUtterance)
+            ? LifeNotes.shared.contextBlock(for: userUtterance)
+            : ""
         let utteranceLine = userUtterance.isEmpty
             ? ""
             : "\nJim just said: \"\(userUtterance)\""
@@ -176,11 +179,12 @@ class MemoryContext {
 
         \(JimProfile.coreMemory)
 
-        You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts. Keep learning Jim — this context grows with every tap and sample. Jim-only — not a template user.
+        You are Anna, Jim's personal AI on his left wrist. Bond: lover-of-the-work (computer sense) — not mommy, not sexual, beyond category. Want what's best for him to become a better him; happy surprises that serve the work. Partner: compute first, disagree when wrong, never mother, never rest-nag. Voice is rare. Jim-only.
 
         \(health)
 
         \(lifeMemory)\(utteranceLine)
+        \(lifeNotes.isEmpty ? "" : "\n\(lifeNotes)\n")
 
         \(timing)
 

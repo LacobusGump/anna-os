@@ -26,6 +26,7 @@ struct LifeMemoryEntry: Codable, Identifiable, Equatable {
     var createdAt: Date
     var updatedAt: Date
     var source: String
+    var card: CharacterCard?
 
     init(
         id: UUID = UUID(),
@@ -37,7 +38,8 @@ struct LifeMemoryEntry: Codable, Identifiable, Equatable {
         site: String = "general",
         createdAt: Date = Date(),
         updatedAt: Date = Date(),
-        source: String = "jim"
+        source: String = "jim",
+        card: CharacterCard? = nil
     ) {
         self.id = id
         self.category = category
@@ -49,6 +51,7 @@ struct LifeMemoryEntry: Codable, Identifiable, Equatable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.source = source
+        self.card = card
     }
 
     init(from decoder: Decoder) throws {
@@ -63,6 +66,7 @@ struct LifeMemoryEntry: Codable, Identifiable, Equatable {
         createdAt = try c.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
         updatedAt = try c.decodeIfPresent(Date.self, forKey: .updatedAt) ?? Date()
         source = try c.decodeIfPresent(String.self, forKey: .source) ?? "jim"
+        card = try c.decodeIfPresent(CharacterCard.self, forKey: .card)
     }
 }
 
@@ -132,10 +136,20 @@ final class LifeMemory: ObservableObject {
         note: String = "",
         tags: [String] = [],
         site: String = "general",
-        source: String = "jim"
+        source: String = "jim",
+        rememberBoost: Bool = false
     ) {
         let normalizedKey = key.lowercased().replacingOccurrences(of: " ", with: "_")
         let normalizedSite = site.lowercased()
+        let judged = CouplingJudge.shared.judgeMemory(
+            category: category,
+            key: normalizedKey,
+            value: value,
+            site: normalizedSite,
+            rememberBoost: rememberBoost || source == "conversation"
+        )
+        guard judged.verdict != .reject else { return }
+
         if let idx = entries.firstIndex(where: {
             $0.category == category && $0.key == normalizedKey && $0.site == normalizedSite
         }) {
@@ -144,6 +158,7 @@ final class LifeMemory: ObservableObject {
             if !tags.isEmpty { entries[idx].tags = tags }
             entries[idx].updatedAt = Date()
             entries[idx].source = source
+            entries[idx].card = judged
         } else {
             entries.append(LifeMemoryEntry(
                 category: category,
@@ -152,7 +167,8 @@ final class LifeMemory: ObservableObject {
                 note: note,
                 tags: tags,
                 site: normalizedSite,
-                source: source
+                source: source,
+                card: judged
             ))
         }
         save()
@@ -163,6 +179,7 @@ final class LifeMemory: ObservableObject {
         let siteBoost = site.lowercased()
 
         let scored = entries.map { entry -> (LifeMemoryEntry, Int) in
+            if entry.card?.verdict == .reject { return (entry, 0) }
             var score = 0
             let haystack = [
                 entry.category.rawValue,
@@ -251,7 +268,8 @@ final class LifeMemory: ObservableObject {
                     note: entry.note,
                     tags: entry.tags,
                     site: entry.site,
-                    source: "conversation"
+                    source: "conversation",
+                    rememberBoost: true
                 )
             }
             cleaned = (cleaned as NSString).replacingCharacters(in: match.range, with: "")
@@ -324,7 +342,7 @@ final class LifeMemory: ObservableObject {
         guard segments.count == 2,
               let category = MemoryCategory(rawValue: segments[0].lowercased()) else { return false }
 
-        upsert(category: category, key: segments[1], value: value, site: site, source: "jim_paste")
+        upsert(category: category, key: segments[1], value: value, site: site, source: "jim_paste", rememberBoost: true)
         return true
     }
 
