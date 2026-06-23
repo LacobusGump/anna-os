@@ -31,8 +31,11 @@ What requires **Jim's explicit opt-in**:
 | Mac LAN tools | `127.0.0.1` / `192.168.x` / `10.x` only |
 | Music CDN | `cdn.jsdelivr.net` only |
 | begump relay | `begump.com/anna` — off by default |
+| Security policy | `begump.com/anna/security-policy.json` + `license.begump.com/validate` — always allowed |
 
 Every allowed request is logged **locally** on device (`anna_egress.log`). Never transmitted.
+
+**Policy channel is separate from begump relay.** Security manifest fetches even when relay is OFF — that's how Jim pushes model/egress updates without touching memories.
 
 ---
 
@@ -78,6 +81,14 @@ Anna app → **Security — Sentinel local-only**
 - View local egress log count
 - Save → persists to UserDefaults + syncs begump relay flag
 
+Anna app → **Coupling License**
+
+- Enter `GUMP-XXXX-XXXX-XXXX` key (Stripe subscription via `license_server.py`)
+- **Activate & Recouple** → POST `license.begump.com/validate` → K=1.868 + `security_policy` JSON
+- **Refresh Policy** → fetch `begump.com/anna/security-policy.json` (no key required)
+- Offline grace: 14 days on bundled `security-policy.default.json`
+- Memories never in policy payload — only model, egress hosts, default toggles
+
 ---
 
 ## Code map
@@ -85,9 +96,13 @@ Anna app → **Security — Sentinel local-only**
 | File | Role |
 |------|------|
 | `AnnaSecurity.swift` | Policy, toggles, mousetrap rules |
+| `CouplingLicense.swift` | Port of `gump.coupling_license` — K decay, recouple |
+| `SecurityPolicySync.swift` | Fetch/apply policy from begump + license validate |
+| `SecurityPolicyTypes.swift` | Policy JSON schema |
 | `NetworkGuard.swift` | Egress whitelist + local log |
 | `SecureStorage.swift` | AES-GCM encrypt all Jim data |
-| `KeychainHelper.swift` | API key, device-only accessibility |
+| `KeychainHelper.swift` | API key, license key, device-only accessibility |
+| `security/anna-security-policy.json` | Canonical policy → deploy to begump.com |
 | `security/sentinel/` | Full Sentinel copy from gump-private |
 | `security/anna-audit.sh` | One-command Mac audit |
 

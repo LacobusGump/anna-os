@@ -75,6 +75,9 @@ v1: paste last call on iPhone. v2: CallKit. v3: **Anna gets her own phone number
 
 Code: `LifeMemory.swift`, `SiteContext.swift`, `CallContext.swift`, `BegumpBridge.swift`. Doc: `MEMORY_AND_PROVIDER.md`. **begump.com** bridges Mac Mini ↔ watch when LAN isn't enough (music already there). No fake seed — Jim teaches Anna his life.
 
+**Security recouple (subscription):**
+Phone runs fully local — Claude on device with Jim's API key, memories encrypted, watch sync via WatchConnectivity. Weekly recouple via GUMP license key pulls **security policy only** from begump (Anthropic model, egress rules). Same coupling system as other GUMP products (`gump.coupling_license`, `license_server.py` on :8890). begump relay stays OFF unless Jim toggles it. Memories never leave the phone.
+
 ---
 
 ## Who you are (one line)

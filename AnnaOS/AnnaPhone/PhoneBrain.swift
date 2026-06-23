@@ -17,8 +17,14 @@ final class PhoneBrain: ObservableObject {
     @Published var currentSite: String = SiteContext.shared.currentSite
     @Published var useBegumpRelay: Bool = BegumpBridge.useRelayFallback
     @Published var egressCount: Int = NetworkGuard.recentEgressCount
+    @Published var licenseKeyInput: String = KeychainHelper.loadLicenseKey()
+    @Published var couplingPhase: String = CouplingLicense.shared.phase
+    @Published var couplingK: Double = CouplingLicense.shared.K
+    @Published var policyVersion: String = AnnaSecurity.shared.policyVersion
+    @Published var couplingMessage: String = ""
 
     private let claude = ClaudeAPI()
+    private let coupling = CouplingLicense.shared
     private let health = JimHealthProfile.shared
     private let lifeMemory = LifeMemory.shared
     private let siteContext = SiteContext.shared
@@ -37,7 +43,46 @@ final class PhoneBrain: ObservableObject {
         AnnaSecurity.shared.begumpRelayEnabled = useBegumpRelay
         #if os(iOS)
         siteContext.startLocationUpdates()
+        refreshSecurityPolicy()
         #endif
+    }
+
+    func refreshSecurityPolicy() {
+        SecurityPolicySync.shared.refreshIfNeeded()
+        policyVersion = AnnaSecurity.shared.policyVersion
+
+        guard coupling.activated else {
+            couplingMessage = "Local mode — add GUMP key to recouple security policy."
+            return
+        }
+
+        coupling.recouple { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.couplingPhase = self.coupling.phase
+                self.couplingK = self.coupling.K
+                self.policyVersion = AnnaSecurity.shared.policyVersion
+                switch result {
+                case .success:
+                    self.couplingMessage = "Recoupled — policy v\(self.policyVersion)"
+                case .failure(let error):
+                    self.couplingMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    func activateLicense() {
+        let trimmed = licenseKeyInput.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard coupling.activate(trimmed) else {
+            couplingMessage = "Invalid key — format GUMP-XXXX-XXXX-XXXX"
+            return
+        }
+        licenseKeyInput = trimmed
+        couplingPhase = coupling.phase
+        couplingK = coupling.K
+        couplingMessage = "License activated — recoupling…"
+        refreshSecurityPolicy()
     }
 
     func saveSettings() {
@@ -71,7 +116,7 @@ final class PhoneBrain: ObservableObject {
         case .askClaude:
             processClaudeRequest(
                 message.payload,
-                context: message.context ?? "",
+                learnedContext: message.context ?? "",
                 userUtterance: message.userUtterance ?? ""
             )
 

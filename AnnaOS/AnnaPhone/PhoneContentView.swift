@@ -3,7 +3,9 @@ import SwiftUI
 struct PhoneContentView: View {
     @EnvironmentObject var brain: PhoneBrain
     @EnvironmentObject var security: AnnaSecurity
+    @EnvironmentObject var coupling: CouplingLicense
     @State private var showKey = false
+    @State private var showLicenseKey = false
 
     var body: some View {
         NavigationStack {
@@ -20,6 +22,48 @@ struct PhoneContentView: View {
                     }
                     if brain.isProcessing {
                         ProgressView("Anna is thinking…")
+                    }
+                }
+
+                Section("Coupling License — security from begump") {
+                    Text("Phone runs fully local. Recouple weekly pulls security policy (model, egress rules) — not your memories. Port of gump.coupling_license.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    HStack {
+                        Text("K")
+                        Spacer()
+                        Text(String(format: "%.3f", brain.couplingK))
+                            .foregroundColor(.secondary)
+                    }
+                    HStack {
+                        Text("Phase")
+                        Spacer()
+                        Text(brain.couplingPhase)
+                            .foregroundColor(.secondary)
+                    }
+                    HStack {
+                        Text("Policy")
+                        Spacer()
+                        Text("v\(brain.policyVersion)")
+                            .foregroundColor(.secondary)
+                    }
+                    if showLicenseKey {
+                        TextField("GUMP-XXXX-XXXX-XXXX", text: $brain.licenseKeyInput)
+                            .textInputAutocapitalization(.characters)
+                            .autocorrectionDisabled()
+                    } else {
+                        HStack {
+                            Text(brain.licenseKeyInput.isEmpty ? "Not set" : "••••-••••-••••")
+                            Spacer()
+                            Button("Edit") { showLicenseKey = true }
+                        }
+                    }
+                    Button("Activate & Recouple") { brain.activateLicense() }
+                    Button("Refresh Policy") { brain.refreshSecurityPolicy() }
+                    if !brain.couplingMessage.isEmpty {
+                        Text(brain.couplingMessage)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
                     }
                 }
 

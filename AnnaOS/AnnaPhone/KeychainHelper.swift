@@ -5,6 +5,7 @@ enum KeychainHelper {
     private static let service = "com.lacobusgump.anna"
     private static let apiKeyAccount = "claude_api_key"
     private static let macHostAccount = "mac_tool_host"
+    private static let licenseKeyAccount = "gump_license_key"
 
     static func saveAPIKey(_ key: String) {
         save(key, account: apiKeyAccount)
@@ -20,6 +21,14 @@ enum KeychainHelper {
 
     static func loadMacHost() -> String {
         load(account: macHostAccount) ?? "http://192.168.1.100:8765"
+    }
+
+    static func saveLicenseKey(_ key: String) {
+        save(key, account: licenseKeyAccount)
+    }
+
+    static func loadLicenseKey() -> String {
+        load(account: licenseKeyAccount) ?? ""
     }
 
     private static func save(_ value: String, account: String) {

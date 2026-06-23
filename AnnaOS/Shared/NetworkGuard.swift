@@ -7,6 +7,7 @@ enum NetworkGuard {
         case macToolLAN
         case begumpRelay
         case musicCDN
+        case securityPolicy
         case denied
     }
 
@@ -20,8 +21,20 @@ enum NetworkGuard {
         classify(url) != .denied
     }
 
+    static func isSecurityPolicyURL(_ url: URL) -> Bool {
+        guard let host = url.host?.lowercased() else { return false }
+        let path = url.path
+        if host == "license.begump.com" && path == "/validate" { return true }
+        if host == "begump.com" && path == "/anna/security-policy.json" { return true }
+        return false
+    }
+
     static func classify(_ url: URL) -> EgressKind {
         guard let host = url.host?.lowercased() else { return .denied }
+
+        if isSecurityPolicyURL(url) {
+            return .securityPolicy
+        }
 
         if host == "api.anthropic.com" {
             return AnnaSecurity.cloudBrainEnabled ? .claude : .denied
@@ -33,6 +46,15 @@ enum NetworkGuard {
 
         if host == "begump.com" || host.hasSuffix(".begump.com") {
             return BegumpBridge.useRelayFallback && AnnaSecurity.begumpRelayEnabled ? .begumpRelay : .denied
+        }
+
+        if AnnaSecurity.isEgressHostAllowed(host) {
+            if host.contains("anthropic") {
+                return AnnaSecurity.cloudBrainEnabled ? .claude : .denied
+            }
+            if host.contains("jsdelivr") {
+                return AnnaSecurity.musicStreamEnabled ? .musicCDN : .denied
+            }
         }
 
         if isLocalLAN(host) {

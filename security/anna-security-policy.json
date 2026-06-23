@@ -1,0 +1,27 @@
+{
+  "version": "2026.06.23",
+  "source": "begump.com",
+  "anna": {
+    "cloud_brain_default": true,
+    "mac_tools_default": true,
+    "music_cdn_default": true,
+    "begump_relay_default": false,
+    "remember_consent_required": true,
+    "anthropic_model": "claude-sonnet-4-20250514",
+    "anthropic_max_tokens": 1024,
+    "allowed_egress_hosts": [
+      "api.anthropic.com",
+      "cdn.jsdelivr.net"
+    ],
+    "mousetrap_rules": "No telemetry. No silent uploads. begump relay off unless explicit. Memories encrypted at rest. Egress logged locally only. Policy updates via begump.com/anna/security-policy.json — local always wins for memories."
+  },
+  "recouple_interval_days": 7,
+  "offline_grace_days": 14,
+  "products": {
+    "anna": {
+      "name": "Anna:OS",
+      "tier": "subscription",
+      "coupling_k_peak": 1.868
+    }
+  }
+}

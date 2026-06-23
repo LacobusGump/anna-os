@@ -2,7 +2,6 @@ import Foundation
 
 final class ClaudeAPI {
     private let baseURL = "https://api.anthropic.com/v1"
-    private let model = "claude-sonnet-4-20250514"
 
     func askClaude(context: String, apiKey: String, completion: @escaping (Result<String, Error>) -> Void) {
         guard !apiKey.isEmpty else {
@@ -28,8 +27,8 @@ final class ClaudeAPI {
         request.timeoutInterval = 60
 
         let payload: [String: Any] = [
-            "model": model,
-            "max_tokens": 1024,
+            "model": AnnaSecurity.anthropicModel,
+            "max_tokens": AnnaSecurity.anthropicMaxTokens,
             "messages": [["role": "user", "content": context]]
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: payload)
