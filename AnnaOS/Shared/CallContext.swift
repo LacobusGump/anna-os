@@ -16,7 +16,8 @@ final class CallContext: ObservableObject {
     private init() {
         let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        storageURL = dir.appendingPathComponent("anna_call_context.json")
+        storageURL = dir.appendingPathComponent("anna_call_context.enc")
+        SecureStorage.migratePlaintext(at: storageURL)
         load()
     }
 
@@ -83,11 +84,11 @@ final class CallContext: ObservableObject {
             endedAt: endedAt
         )
         guard let data = try? JSONEncoder().encode(stored) else { return }
-        try? data.write(to: storageURL, options: .atomic)
+        SecureStorage.write(data, to: storageURL)
     }
 
     private func load() {
-        guard let data = try? Data(contentsOf: storageURL),
+        guard let data = SecureStorage.read(from: storageURL),
               let stored = try? JSONDecoder().decode(Stored.self, from: data) else { return }
         lastCallNotes = stored.lastCallNotes
         contactName = stored.contactName

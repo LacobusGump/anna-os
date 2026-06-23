@@ -10,7 +10,17 @@ final class ClaudeAPI {
             return
         }
 
-        var request = URLRequest(url: URL(string: "\(baseURL)/messages")!)
+        guard let url = URL(string: "\(baseURL)/messages") else {
+            completion(.failure(ClaudeError.badResponse))
+            return
+        }
+        guard NetworkGuard.isAllowed(url) else {
+            completion(.failure(ClaudeError.blocked))
+            return
+        }
+        NetworkGuard.logEgress(url: url, kind: .claude)
+
+        var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("2023-06-01", forHTTPHeaderField: "anthropic-version")
@@ -52,12 +62,14 @@ final class ClaudeAPI {
 enum ClaudeError: LocalizedError {
     case missingKey
     case badResponse
+    case blocked
     case api(String)
 
     var errorDescription: String? {
         switch self {
         case .missingKey: return "Claude API key not set. Open Anna on iPhone and add your key."
         case .badResponse: return "Unexpected response from Claude."
+        case .blocked: return "Claude egress blocked — enable Cloud Brain in Anna Security settings."
         case .api(let msg): return msg
         }
     }

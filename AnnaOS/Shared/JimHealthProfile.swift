@@ -28,7 +28,8 @@ final class JimHealthProfile: ObservableObject {
     private init() {
         let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        storageURL = dir.appendingPathComponent("jim_health_profile.json")
+        storageURL = dir.appendingPathComponent("jim_health_profile.enc")
+        SecureStorage.migratePlaintext(at: storageURL)
         load()
     }
 
@@ -122,11 +123,11 @@ final class JimHealthProfile: ObservableObject {
             syncedSummary: syncedSummary
         )
         guard let data = try? JSONEncoder().encode(storage) else { return }
-        try? data.write(to: storageURL, options: .atomic)
+        SecureStorage.write(data, to: storageURL)
     }
 
     private func load() {
-        guard let data = try? Data(contentsOf: storageURL),
+        guard let data = SecureStorage.read(from: storageURL),
               let s = try? JSONDecoder().decode(Storage.self, from: data) else { return }
         hairColor = s.hairColor
         eyeColor = s.eyeColor

@@ -53,6 +53,12 @@
 		F607182A2E5F678901234571 /* CallContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60708282E5F678901234567 /* CallContext.swift */; };
 		0718293A2E5F678901234572 /* BegumpBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0718292A2E5F678901234567 /* BegumpBridge.swift */; };
 		0718293B2E5F678901234573 /* BegumpBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0718292A2E5F678901234567 /* BegumpBridge.swift */; };
+		18293A4B2E5F678901234574 /* AnnaSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18293A4A2E5F678901234567 /* AnnaSecurity.swift */; };
+		18293A4C2E5F678901234575 /* AnnaSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18293A4A2E5F678901234567 /* AnnaSecurity.swift */; };
+		293A4B5C2E5F678901234576 /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A4B5B2E5F678901234567 /* SecureStorage.swift */; };
+		293A4B5D2E5F678901234577 /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 293A4B5B2E5F678901234567 /* SecureStorage.swift */; };
+		3A4B5C6D2E5F678901234578 /* NetworkGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B5C6C2E5F678901234567 /* NetworkGuard.swift */; };
+		3A4B5C6E2E5F678901234579 /* NetworkGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4B5C6C2E5F678901234567 /* NetworkGuard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +124,9 @@
 		E5F607082E5F678901234567 /* SiteContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteContext.swift; sourceTree = "<group>"; };
 		F60708282E5F678901234567 /* CallContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallContext.swift; sourceTree = "<group>"; };
 		0718292A2E5F678901234567 /* BegumpBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BegumpBridge.swift; sourceTree = "<group>"; };
+		18293A4A2E5F678901234567 /* AnnaSecurity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaSecurity.swift; sourceTree = "<group>"; };
+		293A4B5B2E5F678901234567 /* SecureStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
+		3A4B5C6C2E5F678901234567 /* NetworkGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkGuard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -173,6 +182,9 @@
 				F60708282E5F678901234567 /* CallContext.swift */,
 				E5F607082E5F678901234567 /* SiteContext.swift */,
 				0718292A2E5F678901234567 /* BegumpBridge.swift */,
+				18293A4A2E5F678901234567 /* AnnaSecurity.swift */,
+				3A4B5C6C2E5F678901234567 /* NetworkGuard.swift */,
+				293A4B5B2E5F678901234567 /* SecureStorage.swift */,
 				69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */,
 			);
 			path = Shared;
@@ -324,6 +336,9 @@
 				E5F607182E5F67890123456E /* SiteContext.swift in Sources */,
 				F60718292E5F678901234570 /* CallContext.swift in Sources */,
 				0718293A2E5F678901234572 /* BegumpBridge.swift in Sources */,
+				18293A4B2E5F678901234574 /* AnnaSecurity.swift in Sources */,
+				293A4B5C2E5F678901234576 /* SecureStorage.swift in Sources */,
+				3A4B5C6D2E5F678901234578 /* NetworkGuard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,6 +366,9 @@
 				E5F607192E5F67890123456F /* SiteContext.swift in Sources */,
 				F607182A2E5F678901234571 /* CallContext.swift in Sources */,
 				0718293B2E5F678901234573 /* BegumpBridge.swift in Sources */,
+				18293A4C2E5F678901234575 /* AnnaSecurity.swift in Sources */,
+				293A4B5D2E5F678901234577 /* SecureStorage.swift in Sources */,
+				3A4B5C6E2E5F678901234579 /* NetworkGuard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PhoneContentView: View {
     @EnvironmentObject var brain: PhoneBrain
+    @EnvironmentObject var security: AnnaSecurity
     @State private var showKey = false
 
     var body: some View {
@@ -20,6 +21,25 @@ struct PhoneContentView: View {
                     if brain.isProcessing {
                         ProgressView("Anna is thinking…")
                     }
+                }
+
+                Section("Security — Sentinel local-only") {
+                    Text("No mousetrap. Nothing leaves device unless you toggle it. Memories encrypted at rest. Mac: run security/anna-audit.sh")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Text(security.localOnlySummary)
+                        .font(.caption)
+                    Toggle("Cloud Brain (Claude)", isOn: $security.cloudBrainEnabled)
+                    Toggle("Mac LAN tools", isOn: $security.macToolsEnabled)
+                    Toggle("Music CDN (jsDelivr)", isOn: $security.musicStreamEnabled)
+                    Toggle("begump relay", isOn: $security.begumpRelayEnabled)
+                    HStack {
+                        Text("Egress log (local)")
+                        Spacer()
+                        Text("\(brain.egressCount)")
+                            .foregroundColor(.secondary)
+                    }
+                    Button("Save Security") { brain.saveSecurity() }
                 }
 
                 Section("Claude API Key") {
@@ -118,12 +138,11 @@ struct PhoneContentView: View {
                     Button("Save Health Profile") { brain.saveHealthProfile() }
                 }
 
-                Section("Mac Mini + begump bridge") {
+                Section("Mac Mini (LAN only)") {
                     TextField("http://192.168.1.100:8765", text: $brain.macHost)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                    Toggle("Fallback via begump.com", isOn: $brain.useBegumpRelay)
-                    Text("LAN first — Mac Mini direct. When that fails, tools + sync can relay through begump.com/anna (your computer ↔ watch edge). Music already streams from begump CDN.")
+                    Text("127.0.0.1 or 192.168.x only — NetworkGuard blocks non-LAN. begump relay is in Security (off by default).")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

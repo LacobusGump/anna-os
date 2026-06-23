@@ -16,6 +16,7 @@ final class PhoneBrain: ObservableObject {
     @Published var manualSite: String = SiteContext.shared.manualSiteOverride
     @Published var currentSite: String = SiteContext.shared.currentSite
     @Published var useBegumpRelay: Bool = BegumpBridge.useRelayFallback
+    @Published var egressCount: Int = NetworkGuard.recentEgressCount
 
     private let claude = ClaudeAPI()
     private let health = JimHealthProfile.shared
@@ -33,6 +34,7 @@ final class PhoneBrain: ObservableObject {
             self?.handleWatchMessage(message)
         }
         watchConnected = watch.isWatchReachable
+        AnnaSecurity.shared.begumpRelayEnabled = useBegumpRelay
         #if os(iOS)
         siteContext.startLocationUpdates()
         #endif
@@ -42,6 +44,17 @@ final class PhoneBrain: ObservableObject {
         KeychainHelper.saveAPIKey(apiKey)
         KeychainHelper.saveMacHost(macHost)
         BegumpBridge.setUseRelayFallback(useBegumpRelay)
+        AnnaSecurity.shared.begumpRelayEnabled = useBegumpRelay
+        AnnaSecurity.shared.save()
+    }
+
+    func saveSecurity() {
+        let sec = AnnaSecurity.shared
+        sec.save()
+        useBegumpRelay = sec.begumpRelayEnabled
+        BegumpBridge.setUseRelayFallback(useBegumpRelay)
+        egressCount = NetworkGuard.recentEgressCount
+        memoryMessage = sec.localOnlySummary
     }
 
     func saveHealthProfile() {
@@ -111,6 +124,8 @@ final class PhoneBrain: ObservableObject {
             + lifeMemory.inventoryBlock(site: site)
             + "\n\n"
             + BegumpBridge.contextBlock()
+            + "\n\n"
+            + AnnaSecurity.shared.contextBlock()
             + "\n\n---\n\n"
             + health.contextBlock()
             + "\n\n---\n\n"
@@ -130,6 +145,7 @@ final class PhoneBrain: ObservableObject {
                 case .success(let response):
                     let cleaned = self.lifeMemory.ingestFromResponse(response, allowStore: rememberIntent)
                     self.lifeMemoryCount = self.lifeMemory.count
+                    self.egressCount = NetworkGuard.recentEgressCount
                     self.syncLifeMemoryToWatch()
                     let enriched = self.enrichWithTools(
                         cleaned,

@@ -48,7 +48,8 @@ final class SiteContext: ObservableObject {
     private init() {
         let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-        storageURL = dir.appendingPathComponent("anna_sites.json")
+        storageURL = dir.appendingPathComponent("anna_sites.enc")
+        SecureStorage.migratePlaintext(at: storageURL)
         load()
         if sites.isEmpty {
             sites = [
@@ -104,11 +105,11 @@ final class SiteContext: ObservableObject {
 
     private func save() {
         guard let data = try? JSONEncoder().encode(sites) else { return }
-        try? data.write(to: storageURL, options: .atomic)
+        SecureStorage.write(data, to: storageURL)
     }
 
     private func load() {
-        guard let data = try? Data(contentsOf: storageURL),
+        guard let data = SecureStorage.read(from: storageURL),
               let decoded = try? JSONDecoder().decode([MemorySite].self, from: data) else { return }
         sites = decoded
     }

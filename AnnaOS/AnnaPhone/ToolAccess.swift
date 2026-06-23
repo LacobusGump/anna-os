@@ -65,16 +65,19 @@ final class ToolAccess {
     }
 
     private func runRemoteTool(_ tool: Tool, input: String) -> ToolResult? {
-        if let local = postTool(url: URL(string: "\(macHost)/tool/\(tool.rawValue)"), tool: tool, input: input) {
+        guard AnnaSecurity.macToolsEnabled else { return nil }
+        if NetworkGuard.validateMacHost(macHost),
+           let local = postTool(url: URL(string: "\(macHost)/tool/\(tool.rawValue)"), tool: tool, input: input) {
             return local
         }
-        guard BegumpBridge.useRelayFallback,
+        guard BegumpBridge.useRelayFallback, AnnaSecurity.begumpRelayEnabled,
               let relay = BegumpBridge.toolURL(tool: tool.rawValue) else { return nil }
         return postTool(url: relay, tool: tool, input: input)
     }
 
     private func postTool(url: URL?, tool: Tool, input: String) -> ToolResult? {
-        guard let url else { return nil }
+        guard let url, NetworkGuard.isAllowed(url) else { return nil }
+        NetworkGuard.logEgress(url: url, kind: NetworkGuard.classify(url))
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -29,6 +29,13 @@ open ~/Desktop/Anna-OS/AnnaOS.xcodeproj
 | **begump.com** | Cloud edge | Music CDN now; Mac ↔ watch relay eventually (`/anna/tool`, `/anna/sync`) |
 | **WatchConnectivity** | Both | Brain ↔ wrist messages |
 
+## Security (Sentinel + local-only)
+
+- iPhone: **Security** section — toggle each egress class (Claude, Mac LAN, music, begump relay off by default)
+- Memories/health encrypted at rest (AES-GCM, Secure Enclave key)
+- Mac: `~/Desktop/Anna:OS/security/anna-audit.sh` — full Sentinel audit
+- See `SECURITY.md`
+
 ## Permissions (grant on first launch)
 
 - Watch: Health (heart rate), Microphone
