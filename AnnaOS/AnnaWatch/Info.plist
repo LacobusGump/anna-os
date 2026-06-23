@@ -24,6 +24,8 @@
 	<string>Anna reads heart rate to learn your context and calibrate.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Anna listens to calibrate your environment. She never speaks calibration questions.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Anna hears what you say after Hey Anna so she can use your life memories.</string>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string>workout-processing</string>

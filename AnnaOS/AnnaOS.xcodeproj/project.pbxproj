@@ -40,6 +40,13 @@
 		FA8B81B47AC1B2BCA2703ED9 /* AnnaWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = BC54C73D52C7EC9CC33CE95D /* AnnaWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FA996FDE71EF48671CFECF65 /* ToolAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA480C634F371A268C95FF2 /* ToolAccess.swift */; };
 		FBD26A2AE841ADA83A44A608 /* WatchConnectivityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C53865C904ABC4A4DB2121 /* WatchConnectivityClient.swift */; };
+		A1B2C3D52E5F678901234567 /* LifeMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D42E5F678901234567 /* LifeMemory.swift */; };
+		A1B2C3D62E5F678901234568 /* LifeMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D42E5F678901234567 /* LifeMemory.swift */; };
+		B2C3D4F52E5F678901234569 /* JimHealthProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E52E5F678901234567 /* JimHealthProfile.swift */; };
+		B2C3D5052E5F67890123456A /* JimHealthProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C3D4E52E5F678901234567 /* JimHealthProfile.swift */; };
+		C3D4E5F72E5F67890123456B /* IntentionalUnderstanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */; };
+		C3D4E6052E5F67890123456C /* IntentionalUnderstanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */; };
+		D4E5F6172E5F67890123456D /* SpeechCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6072E5F678901234567 /* SpeechCaptureEngine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +105,10 @@
 		DCA01DDA8E39F878F72B22CC /* PhoneContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneContentView.swift; sourceTree = "<group>"; };
 		EFEFA8585CDC77D516982CA9 /* AnnaMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnaMessages.swift; sourceTree = "<group>"; };
 		F380D197DBE8444D5B9E1D73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A1B2C3D42E5F678901234567 /* LifeMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeMemory.swift; sourceTree = "<group>"; };
+		B2C3D4E52E5F678901234567 /* JimHealthProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JimHealthProfile.swift; sourceTree = "<group>"; };
+		C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionalUnderstanding.swift; sourceTree = "<group>"; };
+		D4E5F6072E5F678901234567 /* SpeechCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCaptureEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -114,6 +125,7 @@
 				840D540DC82B1741504395AA /* Info.plist */,
 				70764A6F867399BE2D077E6F /* WatchAudioRouter.swift */,
 				82C53865C904ABC4A4DB2121 /* WatchConnectivityClient.swift */,
+				D4E5F6072E5F678901234567 /* SpeechCaptureEngine.swift */,
 			);
 			path = AnnaWatch;
 			sourceTree = "<group>";
@@ -145,7 +157,10 @@
 				95759B8F2AFD0302863B9E0E /* AudioMemory.swift */,
 				14F700DD41792F9A7D958776 /* InteractionMode.swift */,
 				BF7F3D92B72437CAA5EEB7E5 /* JIM_PROFILE.md */,
+				B2C3D4E52E5F678901234567 /* JimHealthProfile.swift */,
 				D56DC88D9FB988EF8E11E1AA /* JimProfile.swift */,
+				C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */,
+				A1B2C3D42E5F678901234567 /* LifeMemory.swift */,
 				69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */,
 			);
 			path = Shared;
@@ -291,6 +306,9 @@
 				702DEB8914715F902C42F780 /* SpeechRouter.swift in Sources */,
 				FA996FDE71EF48671CFECF65 /* ToolAccess.swift in Sources */,
 				E4658A471A38340594AE4D4F /* WatchConnectivityServer.swift in Sources */,
+				A1B2C3D52E5F678901234567 /* LifeMemory.swift in Sources */,
+				B2C3D4F52E5F678901234569 /* JimHealthProfile.swift in Sources */,
+				C3D4E5F72E5F67890123456B /* IntentionalUnderstanding.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +329,10 @@
 				6A2FC832EDC40A1F1D376C99 /* MusicLibrary.swift in Sources */,
 				0A62332A680F2C82F9DB2241 /* WatchAudioRouter.swift in Sources */,
 				FBD26A2AE841ADA83A44A608 /* WatchConnectivityClient.swift in Sources */,
+				A1B2C3D62E5F678901234568 /* LifeMemory.swift in Sources */,
+				B2C3D5052E5F67890123456A /* JimHealthProfile.swift in Sources */,
+				C3D4E6052E5F67890123456C /* IntentionalUnderstanding.swift in Sources */,
+				D4E5F6172E5F67890123456D /* SpeechCaptureEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

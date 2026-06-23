@@ -16,6 +16,7 @@ final class AnnaCore: NSObject, ObservableObject {
     @Published var audioMemoryCount: Int = 0
     @Published var pendingPrompt: ContextGuess?
     @Published var timingObservationCount: Int = 0
+    @Published var lifeMemoryCount: Int = 0
 
     private let sensorEngine: SensorProviding
     private let audioEngine: AudioCapturing
@@ -24,6 +25,7 @@ final class AnnaCore: NSObject, ObservableObject {
     private let memoryContext = MemoryContext()
     private let audioMemory = AudioMemory()
     private let intentionalUnderstanding = IntentionalUnderstanding()
+    private let speechCapture = SpeechCaptureEngine()
     private let phone: PhoneMessaging
     private var lastPromptLabel: String?
 
@@ -63,6 +65,7 @@ final class AnnaCore: NSObject, ObservableObject {
 
         phone.send(AnnaMessage(type: .phoneStatus, payload: "watch_ready"))
         phoneConnected = phone.isPhoneReachable
+        lifeMemoryCount = LifeMemory.shared.count
     }
 
     private func startExtendedRuntime() {
@@ -141,15 +144,27 @@ final class AnnaCore: NSObject, ObservableObject {
 
         intentionalUnderstanding.recordWakeWord()
 
+        speechCapture.captureUtterance { [weak self] utterance in
+            self?.sendConversationRequest(utterance: utterance)
+        }
+    }
+
+    private func sendConversationRequest(utterance: String) {
         let learnedContext = audioMemory.getMostLikelyContext()
         let context = memoryContext.buildContext(
             sensors: sensorState,
             learned: learnedContext,
             audioMemory: audioMemory,
-            intentionalUnderstanding: intentionalUnderstanding
+            intentionalUnderstanding: intentionalUnderstanding,
+            userUtterance: utterance
         )
 
-        phone.send(AnnaMessage(type: .askClaude, payload: context, context: learnedContext))
+        phone.send(AnnaMessage(
+            type: .askClaude,
+            payload: context,
+            context: learnedContext,
+            userUtterance: utterance.isEmpty ? nil : utterance
+        ))
     }
 
     func deliverProactiveAlert(_ message: String) {
@@ -194,6 +209,10 @@ final class AnnaCore: NSObject, ObservableObject {
 
         case .syncMemory:
             JimHealthProfile.shared.applySyncedSummary(message.payload)
+
+        case .syncLifeMemory:
+            LifeMemory.shared.applySnapshot(message.payload)
+            lifeMemoryCount = LifeMemory.shared.count
 
         default:
             break

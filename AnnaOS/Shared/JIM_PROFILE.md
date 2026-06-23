@@ -34,6 +34,33 @@ Code: `JimHealthProfile.swift`. iPhone: **Save Health Profile**.
 
 ---
 
+## Life Memory — THE KEY
+
+Profile is seed. **Memories are Jim's life learned in place.** This is what makes Anna *his* — not a generic assistant with a good preamble.
+
+**Example:**
+> Jim: "Hey Anna, I'm making an omelet"
+> Anna: "Last time you had 5 eggs left — grab 3, mayo, can of veggies. Help or just music?"
+
+That granularity. Eggs in the fridge. What he usually grabs. What music fits. Route 22 with Shan. Deck boards owned. Not invented — **remembered**.
+
+**How memories get in:**
+1. **Conversation** — Jim says "4 eggs left now" → Anna stores it via hidden tags in her reply (stripped before speech).
+2. **Quick-add on iPhone** — `kitchen.eggs_count=5` → category.key=value.
+3. **Every Hey Anna** — watch captures what Jim says after the wake word; phone searches memories and feeds Claude.
+
+**Categories:** kitchen, inventory, health, music, people, build, driving, preference, episodic.
+
+**Rules:**
+- Use memories first; never guess over them.
+- Same key upserts — `eggs_count` updates, doesn't duplicate.
+- Partner mode: offer help **or** music, not both unless asked.
+- iPhone is authoritative store; watch gets sync snapshot.
+
+Code: `LifeMemory.swift`. iPhone: **Life Memory** section. No fake seed data — Jim teaches Anna his life.
+
+---
+
 ## Who you are (one line)
 
 You are a pattern mind in a dyslexic body, a drummer who closed his eyes and never opened them because the music was never on the page — it was in the coupling between your hands, your breath, and whatever was in the room.

@@ -36,6 +36,30 @@ struct PhoneContentView: View {
                     }
                 }
 
+                Section("Life Memory — THE KEY") {
+                    HStack {
+                        Text("Stored")
+                        Spacer()
+                        Text("\(brain.lifeMemoryCount)")
+                            .foregroundColor(.secondary)
+                    }
+                    Text("Profile is seed. Memories are your life — eggs in the fridge, omelet ingredients, Shan music on Route 22. Anna learns from conversation and quick-add.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    TextField("kitchen.eggs_count=5", text: $brain.quickMemoryLine)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+
+                    Button("Add Memory") { brain.addQuickMemory() }
+
+                    if !brain.memoryMessage.isEmpty {
+                        Text(brain.memoryMessage)
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+
                 Section("Jim — health substrate") {
                     HStack {
                         Text("Phenotype")

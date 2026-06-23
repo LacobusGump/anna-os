@@ -157,7 +157,8 @@ class MemoryContext {
         sensors: SensorState,
         learned: String,
         audioMemory: AudioMemory,
-        intentionalUnderstanding: IntentionalUnderstanding
+        intentionalUnderstanding: IntentionalUnderstanding,
+        userUtterance: String = ""
     ) -> String {
         let recent = environmentLog.suffix(5).joined(separator: ", ")
         let hour = Calendar.current.component(.hour, from: Date())
@@ -165,6 +166,10 @@ class MemoryContext {
         let stats = audioMemory.stats()
         let timing = intentionalUnderstanding.contextBlock()
         let health = JimHealthProfile.shared.contextBlock()
+        let lifeMemory = LifeMemory.shared.contextBlock(for: userUtterance)
+        let utteranceLine = userUtterance.isEmpty
+            ? ""
+            : "\nJim just said: \"\(userUtterance)\""
 
         var context = """
         \(JimProfile.constitution)
@@ -174,6 +179,8 @@ class MemoryContext {
         You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts. Keep learning Jim — this context grows with every tap and sample. Jim-only — not a template user.
 
         \(health)
+
+        \(lifeMemory)\(utteranceLine)
 
         \(timing)
 

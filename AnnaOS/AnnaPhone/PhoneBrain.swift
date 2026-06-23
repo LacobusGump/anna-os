@@ -9,9 +9,13 @@ final class PhoneBrain: ObservableObject {
     @Published var macHost: String = KeychainHelper.loadMacHost()
     @Published var healthRecords: String = JimHealthProfile.shared.healthRecordsText
     @Published var mc1rNotes: String = JimHealthProfile.shared.mc1rGenotypeNotes
+    @Published var lifeMemoryCount: Int = LifeMemory.shared.count
+    @Published var quickMemoryLine: String = ""
+    @Published var memoryMessage: String = ""
 
     private let claude = ClaudeAPI()
     private let health = JimHealthProfile.shared
+    private let lifeMemory = LifeMemory.shared
     private let tools = ToolAccess()
     private let music = MusicStreamPlayer()
     private let speech = SpeechRouter()
@@ -42,7 +46,11 @@ final class PhoneBrain: ObservableObject {
 
         switch message.type {
         case .askClaude:
-            processClaudeRequest(message.payload, context: message.context ?? "")
+            processClaudeRequest(
+                message.payload,
+                context: message.context ?? "",
+                userUtterance: message.userUtterance ?? ""
+            )
 
         case .playMusic:
             music.play(filename: message.payload)
@@ -62,8 +70,9 @@ final class PhoneBrain: ObservableObject {
             if !health.healthRecordsText.isEmpty || !health.mc1rGenotypeNotes.isEmpty {
                 watch.send(AnnaMessage(type: .syncMemory, payload: health.summaryForWatchSync()))
             }
+            syncLifeMemoryToWatch()
 
-        case .syncMemory:
+        case .syncMemory, .syncLifeMemory:
             break
 
         default:
@@ -71,10 +80,15 @@ final class PhoneBrain: ObservableObject {
         }
     }
 
-    private func processClaudeRequest(_ context: String, learnedContext: String) {
+    private func processClaudeRequest(_ context: String, learnedContext: String, userUtterance: String) {
         isProcessing = true
         let key = KeychainHelper.loadAPIKey()
+        let memoryQuery = userUtterance.isEmpty ? learnedContext : userUtterance
         let fullContext = JimProfile.systemPreamble()
+            + "\n\n---\n\n"
+            + LifeMemory.claudeInstructions
+            + "\n\n"
+            + lifeMemory.contextBlock(for: memoryQuery)
             + "\n\n---\n\n"
             + health.contextBlock()
             + "\n\n---\n\n"
@@ -86,7 +100,14 @@ final class PhoneBrain: ObservableObject {
                 self.isProcessing = false
                 switch result {
                 case .success(let response):
-                    let enriched = self.enrichWithTools(response, query: context, learned: learnedContext)
+                    let cleaned = self.lifeMemory.ingestFromResponse(response)
+                    self.lifeMemoryCount = self.lifeMemory.count
+                    self.syncLifeMemoryToWatch()
+                    let enriched = self.enrichWithTools(
+                        cleaned,
+                        query: userUtterance.isEmpty ? context : userUtterance,
+                        learned: learnedContext
+                    )
                     self.lastResponse = enriched
                     self.watch.send(AnnaMessage(type: .claudeResponse, payload: enriched))
 
@@ -109,5 +130,21 @@ final class PhoneBrain: ObservableObject {
 
     func testConnection() {
         watch.send(AnnaMessage(type: .phoneStatus, payload: "connected"))
+    }
+
+    func addQuickMemory() {
+        guard lifeMemory.ingestQuickLine(quickMemoryLine) else {
+            memoryMessage = "Format: kitchen.eggs_count=5"
+            return
+        }
+        quickMemoryLine = ""
+        lifeMemoryCount = lifeMemory.count
+        memoryMessage = "Saved — synced to watch on next ping."
+        syncLifeMemoryToWatch()
+    }
+
+    private func syncLifeMemoryToWatch() {
+        guard lifeMemory.count > 0 else { return }
+        watch.send(AnnaMessage(type: .syncLifeMemory, payload: lifeMemory.jsonSnapshot()))
     }
 }

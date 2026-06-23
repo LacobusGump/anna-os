@@ -10,6 +10,7 @@ enum AnnaMessageType: String, Codable {
     case musicState
     case phoneStatus
     case syncMemory
+    case syncLifeMemory
     case error
 }
 
@@ -17,6 +18,7 @@ struct AnnaMessage: Codable {
     let type: AnnaMessageType
     let payload: String
     let context: String?
+    let userUtterance: String?
     let songTitle: String?
     let isPlaying: Bool?
 
@@ -24,12 +26,14 @@ struct AnnaMessage: Codable {
         type: AnnaMessageType,
         payload: String = "",
         context: String? = nil,
+        userUtterance: String? = nil,
         songTitle: String? = nil,
         isPlaying: Bool? = nil
     ) {
         self.type = type
         self.payload = payload
         self.context = context
+        self.userUtterance = userUtterance
         self.songTitle = songTitle
         self.isPlaying = isPlaying
     }
