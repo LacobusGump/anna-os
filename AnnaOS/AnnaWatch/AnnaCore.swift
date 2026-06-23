@@ -15,6 +15,7 @@ final class AnnaCore: NSObject, ObservableObject {
     @Published var contextGuesses: [ContextGuess] = []
     @Published var audioMemoryCount: Int = 0
     @Published var pendingPrompt: ContextGuess?
+    @Published var timingObservationCount: Int = 0
 
     private let sensorEngine: SensorProviding
     private let audioEngine: AudioCapturing
@@ -22,7 +23,9 @@ final class AnnaCore: NSObject, ObservableObject {
     private let musicLibrary = MusicLibrary()
     private let memoryContext = MemoryContext()
     private let audioMemory = AudioMemory()
+    private let intentionalUnderstanding = IntentionalUnderstanding()
     private let phone: PhoneMessaging
+    private var lastPromptLabel: String?
 
     private var calibrationTimer: Timer?
     private var extendedSession: WKExtendedRuntimeSession?
@@ -73,6 +76,7 @@ final class AnnaCore: NSObject, ObservableObject {
             self?.captureAndGuessContext()
         }
         audioMemoryCount = audioMemory.labeledSamples.count
+        timingObservationCount = intentionalUnderstanding.observationCount
     }
 
     private func captureAndGuessContext() {
@@ -83,14 +87,26 @@ final class AnnaCore: NSObject, ObservableObject {
             sensorContext: sensorState.inferContext()
         )
         contextGuesses = guesses
-        pendingPrompt = guesses.first
+
+        if let prompt = guesses.first {
+            if lastPromptLabel != prompt.label {
+                intentionalUnderstanding.promptPresented(label: prompt.label)
+                lastPromptLabel = prompt.label
+            }
+            pendingPrompt = prompt
+        }
+
         audioMemoryCount = audioMemory.labeledSamples.count
+        timingObservationCount = intentionalUnderstanding.observationCount
     }
 
     func confirmContext(guess: ContextGuess, confirmed: Bool) {
         interactionMode = .calibrating
         proactiveAlert = ""
         let audioSample = audioEngine.currentSample()
+
+        intentionalUnderstanding.recordCalibrationTap(label: guess.label, confirmed: confirmed)
+        lastPromptLabel = nil
 
         if confirmed {
             audioMemory.recordLabel(
@@ -112,6 +128,7 @@ final class AnnaCore: NSObject, ObservableObject {
         }
 
         audioMemoryCount = audioMemory.labeledSamples.count
+        timingObservationCount = intentionalUnderstanding.observationCount
         pendingPrompt = nil
     }
 
@@ -119,13 +136,17 @@ final class AnnaCore: NSObject, ObservableObject {
         interactionMode = .conversing
         proactiveAlert = ""
         pendingPrompt = nil
+        lastPromptLabel = nil
         currentResponse = "…"
+
+        intentionalUnderstanding.recordWakeWord()
 
         let learnedContext = audioMemory.getMostLikelyContext()
         let context = memoryContext.buildContext(
             sensors: sensorState,
             learned: learnedContext,
-            audioMemory: audioMemory
+            audioMemory: audioMemory,
+            intentionalUnderstanding: intentionalUnderstanding
         )
 
         phone.send(AnnaMessage(type: .askClaude, payload: context, context: learnedContext))
@@ -140,6 +161,8 @@ final class AnnaCore: NSObject, ObservableObject {
     }
 
     func dismissConversation() {
+        intentionalUnderstanding.recordConversationEnd()
+        timingObservationCount = intentionalUnderstanding.observationCount
         interactionMode = .calibrating
         currentResponse = ""
         proactiveAlert = ""

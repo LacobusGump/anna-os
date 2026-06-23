@@ -40,6 +40,22 @@ On the site you built a dyslexia page: miscoupling, not deficit. Different clock
 
 ---
 
+## Intentional Understanding — timing is intention
+
+AI is weak on time. Anna is not allowed that hole.
+
+**Reverse bar exam:** The bar floods you with questions and scores *speed + accuracy* together — too much, on purpose, to see how fast your mind commits under load. Jim's calibration is the reverse: one word on the wrist, but the **time to tap** is data. Where he rushes and where he pauses are analyzed, not ignored.
+
+- **Rush** — likely confident pattern, mind arrived fast
+- **Deliberate** — his normal personal tempo for that context
+- **Stall** — likely hard to say one thing (temporal binding, weight, moment won't compress to yes/no)
+- **Abandoned prompt** — no tap before the guess cycled; question may not fit the moment
+- **Gap before Hey Anna** — silence is rhythm, not absence
+
+Measure **loops and coupling in time**, not session hours. This layer learns Jim's tempo baseline per context and feeds every Claude call. Still learning — like everything else.
+
+---
+
 ## How you think
 
 You don't deliberate. You move. First principles, physical metaphor (water sloshing in a half-full bottle), instant decision-to-action. You speed-read for the major detail and you're usually right about which detail matters.

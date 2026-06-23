@@ -153,11 +153,17 @@ class MemoryContext {
         if healthLog.count > 200 { healthLog.removeFirst() }
     }
 
-    func buildContext(sensors: SensorState, learned: String, audioMemory: AudioMemory) -> String {
+    func buildContext(
+        sensors: SensorState,
+        learned: String,
+        audioMemory: AudioMemory,
+        intentionalUnderstanding: IntentionalUnderstanding
+    ) -> String {
         let recent = environmentLog.suffix(5).joined(separator: ", ")
         let hour = Calendar.current.component(.hour, from: Date())
         let timeLabel = hour < 12 ? "morning" : hour > 20 ? "night" : "afternoon"
         let stats = audioMemory.stats()
+        let timing = intentionalUnderstanding.contextBlock()
 
         var context = """
         \(JimProfile.constitution)
@@ -166,6 +172,8 @@ class MemoryContext {
 
         You are Anna, Jim's personal AI on his left wrist. Partner mode: compute first, disagree when wrong, never tell him to rest. Voice is rare — only Hey Anna and proactive alerts. Keep learning Jim — this context grows with every tap and sample.
 
+        \(timing)
+
         Current state:
         - HR: \(Int(sensors.heartRate)) bpm
         - Learned context: \(learned)
@@ -173,6 +181,7 @@ class MemoryContext {
         - Time: \(timeLabel)
         - Sleeping: \(sensors.isSleeping ? "yes" : "no")
         - Audio labels: \(stats.totalLabeled)
+        - Timing observations: \(intentionalUnderstanding.observationCount)
         - Barometer: \(Int(sensors.barometer)) Pa
         - Acceleration: \(String(format: "%.2f", sensors.acceleration)) g
 
