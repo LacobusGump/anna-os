@@ -12,10 +12,15 @@ final class PhoneBrain: ObservableObject {
     @Published var lifeMemoryCount: Int = LifeMemory.shared.count
     @Published var quickMemoryLine: String = ""
     @Published var memoryMessage: String = ""
+    @Published var lastCallNotes: String = CallContext.shared.lastCallNotes
+    @Published var manualSite: String = SiteContext.shared.manualSiteOverride
+    @Published var currentSite: String = SiteContext.shared.currentSite
 
     private let claude = ClaudeAPI()
     private let health = JimHealthProfile.shared
     private let lifeMemory = LifeMemory.shared
+    private let siteContext = SiteContext.shared
+    private let callContext = CallContext.shared
     private let tools = ToolAccess()
     private let music = MusicStreamPlayer()
     private let speech = SpeechRouter()
@@ -27,6 +32,9 @@ final class PhoneBrain: ObservableObject {
             self?.handleWatchMessage(message)
         }
         watchConnected = watch.isWatchReachable
+        #if os(iOS)
+        siteContext.startLocationUpdates()
+        #endif
     }
 
     func saveSettings() {
@@ -84,15 +92,31 @@ final class PhoneBrain: ObservableObject {
         isProcessing = true
         let key = KeychainHelper.loadAPIKey()
         let memoryQuery = userUtterance.isEmpty ? learnedContext : userUtterance
-        let fullContext = JimProfile.systemPreamble()
+        let rememberIntent = LifeMemory.hasRememberIntent(userUtterance)
+        let site = siteContext.currentSite
+        currentSite = site
+
+        var fullContext = JimProfile.systemPreamble()
             + "\n\n---\n\n"
             + LifeMemory.claudeInstructions
             + "\n\n"
-            + lifeMemory.contextBlock(for: memoryQuery)
+            + siteContext.contextBlock()
+            + "\n\n"
+            + callContext.contextBlock()
+            + "\n\n"
+            + lifeMemory.contextBlock(for: memoryQuery, site: site)
+            + "\n\n"
+            + lifeMemory.inventoryBlock(site: site)
             + "\n\n---\n\n"
             + health.contextBlock()
             + "\n\n---\n\n"
             + context
+
+        if rememberIntent {
+            fullContext += "\n\nREMEMBER INTENT DETECTED — Jim asked to store facts. Emit <anna_memory> tags."
+        } else {
+            fullContext += "\n\nNo remember intent — retrieve only, do not emit memory tags."
+        }
 
         claude.askClaude(context: fullContext, apiKey: key) { [weak self] result in
             guard let self else { return }
@@ -100,7 +124,7 @@ final class PhoneBrain: ObservableObject {
                 self.isProcessing = false
                 switch result {
                 case .success(let response):
-                    let cleaned = self.lifeMemory.ingestFromResponse(response)
+                    let cleaned = self.lifeMemory.ingestFromResponse(response, allowStore: rememberIntent)
                     self.lifeMemoryCount = self.lifeMemory.count
                     self.syncLifeMemoryToWatch()
                     let enriched = self.enrichWithTools(
@@ -132,9 +156,20 @@ final class PhoneBrain: ObservableObject {
         watch.send(AnnaMessage(type: .phoneStatus, payload: "connected"))
     }
 
+    func saveCallContext() {
+        callContext.updateNotes(lastCallNotes)
+        memoryMessage = "Call context saved."
+    }
+
+    func saveManualSite() {
+        siteContext.setManualSite(manualSite)
+        currentSite = siteContext.currentSite
+        memoryMessage = "Site set to \(currentSite)."
+    }
+
     func addQuickMemory() {
         guard lifeMemory.ingestQuickLine(quickMemoryLine) else {
-            memoryMessage = "Format: kitchen.eggs_count=5"
+            memoryMessage = "Format: inventory@home.eggs_count=5 or build@work.deck_materials_list=…"
             return
         }
         quickMemoryLine = ""

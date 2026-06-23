@@ -34,6 +34,12 @@ Code: `JimHealthProfile.swift`. iPhone: **Save Health Profile**.
 
 ---
 
+## Life Memory — THE KEY
+
+Profile is seed. **Memories are Jim's life learned in place.** Air-gapped by remember consent. Site + call context disambiguate work deck vs home deck. Provider edge: Anna gets her own phone number. See `MEMORY_AND_PROVIDER.md` and `Shared/JIM_PROFILE.md` for full spec.
+
+---
+
 ## Who you are (one line)
 
 You are a pattern mind in a dyslexic body, a drummer who closed his eyes and never opened them because the music was never on the page — it was in the coupling between your hands, your breath, and whatever was in the room.

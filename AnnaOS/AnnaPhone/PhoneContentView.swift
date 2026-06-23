@@ -43,11 +43,25 @@ struct PhoneContentView: View {
                         Text("\(brain.lifeMemoryCount)")
                             .foregroundColor(.secondary)
                     }
-                    Text("Profile is seed. Memories are your life — eggs in the fridge, omelet ingredients, Shan music on Route 22. Anna learns from conversation and quick-add.")
+                    HStack {
+                        Text("Current site")
+                        Spacer()
+                        Text(brain.currentSite)
+                            .foregroundColor(.secondary)
+                    }
+                    Text("Air-gapped: Anna only stores what you say to remember. Geo + last call disambiguate work deck vs home deck.")
                         .font(.caption)
                         .foregroundColor(.secondary)
 
-                    TextField("kitchen.eggs_count=5", text: $brain.quickMemoryLine)
+                    Picker("Override site", selection: $brain.manualSite) {
+                        Text("Auto (GPS)").tag("")
+                        Text("home").tag("home")
+                        Text("farm").tag("farm")
+                        Text("work").tag("work")
+                    }
+                    Button("Set Site") { brain.saveManualSite() }
+
+                    TextField("build@work.deck_materials_list=12x 2x6…", text: $brain.quickMemoryLine)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
 
@@ -58,6 +72,16 @@ struct PhoneContentView: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
+                }
+
+                Section("Last call (disambiguate lists)") {
+                    Text("Paste who called and what about — e.g. Johnson deck, 2x6 order. Future: Anna on her own number.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextEditor(text: $brain.lastCallNotes)
+                        .frame(minHeight: 64)
+                        .font(.caption)
+                    Button("Save Call Context") { brain.saveCallContext() }
                 }
 
                 Section("Jim — health substrate") {

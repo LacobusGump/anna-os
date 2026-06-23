@@ -47,6 +47,10 @@
 		C3D4E5F72E5F67890123456B /* IntentionalUnderstanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */; };
 		C3D4E6052E5F67890123456C /* IntentionalUnderstanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */; };
 		D4E5F6172E5F67890123456D /* SpeechCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5F6072E5F678901234567 /* SpeechCaptureEngine.swift */; };
+		E5F607182E5F67890123456E /* SiteContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F607082E5F678901234567 /* SiteContext.swift */; };
+		E5F607192E5F67890123456F /* SiteContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F607082E5F678901234567 /* SiteContext.swift */; };
+		F60718292E5F678901234570 /* CallContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60708282E5F678901234567 /* CallContext.swift */; };
+		F607182A2E5F678901234571 /* CallContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60708282E5F678901234567 /* CallContext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,8 @@
 		B2C3D4E52E5F678901234567 /* JimHealthProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JimHealthProfile.swift; sourceTree = "<group>"; };
 		C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentionalUnderstanding.swift; sourceTree = "<group>"; };
 		D4E5F6072E5F678901234567 /* SpeechCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCaptureEngine.swift; sourceTree = "<group>"; };
+		E5F607082E5F678901234567 /* SiteContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteContext.swift; sourceTree = "<group>"; };
+		F60708282E5F678901234567 /* CallContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -161,6 +167,8 @@
 				D56DC88D9FB988EF8E11E1AA /* JimProfile.swift */,
 				C3D4E5F62E5F678901234567 /* IntentionalUnderstanding.swift */,
 				A1B2C3D42E5F678901234567 /* LifeMemory.swift */,
+				F60708282E5F678901234567 /* CallContext.swift */,
+				E5F607082E5F678901234567 /* SiteContext.swift */,
 				69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */,
 			);
 			path = Shared;
@@ -309,6 +317,8 @@
 				A1B2C3D52E5F678901234567 /* LifeMemory.swift in Sources */,
 				B2C3D4F52E5F678901234569 /* JimHealthProfile.swift in Sources */,
 				C3D4E5F72E5F67890123456B /* IntentionalUnderstanding.swift in Sources */,
+				E5F607182E5F67890123456E /* SiteContext.swift in Sources */,
+				F60718292E5F678901234570 /* CallContext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +343,8 @@
 				B2C3D5052E5F67890123456A /* JimHealthProfile.swift in Sources */,
 				C3D4E6052E5F67890123456C /* IntentionalUnderstanding.swift in Sources */,
 				D4E5F6172E5F67890123456D /* SpeechCaptureEngine.swift in Sources */,
+				E5F607192E5F67890123456F /* SiteContext.swift in Sources */,
+				F607182A2E5F678901234571 /* CallContext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

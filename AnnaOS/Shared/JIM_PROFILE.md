@@ -38,26 +38,42 @@ Code: `JimHealthProfile.swift`. iPhone: **Save Health Profile**.
 
 Profile is seed. **Memories are Jim's life learned in place.** This is what makes Anna *his* — not a generic assistant with a good preamble.
 
-**Example:**
+**Inventory — anything left:**
 > Jim: "Hey Anna, I'm making an omelet"
 > Anna: "Last time you had 5 eggs left — grab 3, mayo, can of veggies. Help or just music?"
 
-That granularity. Eggs in the fridge. What he usually grabs. What music fits. Route 22 with Shan. Deck boards owned. Not invented — **remembered**.
+Eggs, paint gallons, screws, 2x6s, mayo — **whatever Jim tells her to remember**.
+
+**Build — how Jim does it:**
+> Deck at home: face screw, 3/16 gap, his railing style.
+> Deck at work: Johnson job materials list — twelve 2x6s, joist hangers.
+
+Work deck list ≠ home deck list. Geo-synced site + last phone call disambiguate.
+
+**Air-gap consent (Person #1):**
+Jim is willing to give Anna everything eventually — calls, geo, full stream. But storage is gated:
+> **Anna only stores what Jim says to remember.**
+
+`"Hey Anna, remember …"` / quick-add on iPhone. Casual chat retrieves memories but does not silently write. Jim names what enters permanent storage.
 
 **How memories get in:**
-1. **Conversation** — Jim says "4 eggs left now" → Anna stores it via hidden tags in her reply (stripped before speech).
-2. **Quick-add on iPhone** — `kitchen.eggs_count=5` → category.key=value.
-3. **Every Hey Anna** — watch captures what Jim says after the wake word; phone searches memories and feeds Claude.
+1. **Remember command** — `"Hey Anna, remember twelve 2x6s for the Johnson deck"` → stored at site `work`.
+2. **Quick-add** — `build@work.deck_materials_list=12x 2x6x12` or `inventory@home.eggs_count=5`.
+3. **Geo site** — iPhone GPS matches home / farm / work radius → current site.
+4. **Last call** — paste who called and what about; `"remember"` right after binds to that job.
 
-**Categories:** kitchen, inventory, health, music, people, build, driving, preference, episodic.
+**Phone calls — the edge (roadmap):**
+v1: paste last call on iPhone. v2: CallKit. v3: **Anna gets her own phone number** — Jim as provider, Anna on the line when he calls, hears context, stores only what he says to remember. That's the moat.
+
+**Categories:** kitchen, inventory, health, music, people, build, work, driving, preference, episodic.
 
 **Rules:**
-- Use memories first; never guess over them.
-- Same key upserts — `eggs_count` updates, doesn't duplicate.
+- Retrieve freely; write only on remember consent or quick-add.
+- Same key + site upserts — `build@work.deck_materials_list` separate from `build@home`.
 - Partner mode: offer help **or** music, not both unless asked.
-- iPhone is authoritative store; watch gets sync snapshot.
+- iPhone authoritative; watch sync snapshot.
 
-Code: `LifeMemory.swift`. iPhone: **Life Memory** section. No fake seed data — Jim teaches Anna his life.
+Code: `LifeMemory.swift`, `SiteContext.swift`, `CallContext.swift`. Doc: `MEMORY_AND_PROVIDER.md`. No fake seed — Jim teaches Anna his life.
 
 ---
 

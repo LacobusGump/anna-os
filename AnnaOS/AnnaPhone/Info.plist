@@ -20,6 +20,8 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Anna matches memories to where you are — work deck list vs home deck list.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
