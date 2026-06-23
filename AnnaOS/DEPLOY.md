@@ -26,6 +26,7 @@ open ~/Desktop/Anna-OS/AnnaOS.xcodeproj
 |-------|----------|-----|
 | **AnnaWatch** | Apple Watch Series 11 | HealthKit HR, mic, silent calibration UI, Hey Anna gate, TTS when allowed |
 | **AnnaPhone** | iPhone 15 | Claude API, Keychain, music CDN stream, tool proxy to Mac Mini |
+| **begump.com** | Cloud edge | Music CDN now; Mac ↔ watch relay eventually (`/anna/tool`, `/anna/sync`) |
 | **WatchConnectivity** | Both | Brain ↔ wrist messages |
 
 ## Permissions (grant on first launch)
@@ -37,9 +38,13 @@ open ~/Desktop/Anna-OS/AnnaOS.xcodeproj
 
 Streams from `cdn.jsdelivr.net/gh/LacobusGump/music2.0@main` — same source as begump.com/radio/. No bundled MP3s.
 
-## Mac Mini tools (optional)
+## Mac Mini + begump bridge
 
-In iPhone Anna settings, set host like `http://192.168.1.100:8765`. Prime count, protein fold, etc. proxy there when reachable.
+In iPhone Anna settings:
+- **LAN host:** `http://192.168.1.100:8765` — prime, fold, compile direct to Mac Mini
+- **Fallback via begump.com** — when LAN fails, same tools relay through `https://begump.com/anna` (your computer ↔ watch edge; music already uses begump CDN)
+
+See `MEMORY_AND_PROVIDER.md` § begump bridge.
 
 ## Verify build locally
 

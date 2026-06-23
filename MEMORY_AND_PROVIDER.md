@@ -109,6 +109,40 @@ iPhone = authoritative memory store. Watch = sync snapshot + Hey Anna utterance 
 
 ---
 
+## begump.com bridge — computer ↔ watch
+
+Jim's Mac Mini runs heavy tools (prime, fold, compile). Watch is narrow brain. iPhone is wide brain **today** — but eventually the wrist needs the computer when the phone isn't in pocket.
+
+**begump.com is the relay edge** — same family as music CDN (`begump.com/radio/`, jsDelivr `music2.0`).
+
+```
+Mac Mini (home LAN)
+    ↕ direct HTTP :8765 when reachable
+iPhone (AnnaPhone)
+    ↕ WatchConnectivity
+Watch (AnnaWatch)
+
+Eventually when LAN/phone gap:
+Mac Mini → begump.com/anna → Watch (or iPhone cache)
+```
+
+| Path | Purpose |
+|------|---------|
+| `begump.com/anna/tool/{name}` | Proxy Mac tools when off-LAN |
+| `begump.com/anna/sync/life-memory` | Memory snapshot to wrist |
+| `begump.com/anna/sync/health` | Health substrate |
+| `begump.com/anna/watch/message` | Hey Anna round-trip via cloud |
+
+**v1 (now):** LAN to Mac Mini; begump for music only.  
+**v2:** Toggle fallback — iPhone tries LAN, then `begump.com/anna`.  
+**v3:** Watch pulls from begump when phone sleeping; Mac pushes state upstream.
+
+Jim-only. Relay does not bypass remember consent — storage still gated.
+
+Code: `BegumpBridge.swift`, `ToolAccess.swift` (LAN then begump fallback).
+
+---
+
 ## Example session
 
 1. Jim at **work**, just called **Johnson** about deck lumber.

@@ -51,6 +51,8 @@
 		E5F607192E5F67890123456F /* SiteContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F607082E5F678901234567 /* SiteContext.swift */; };
 		F60718292E5F678901234570 /* CallContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60708282E5F678901234567 /* CallContext.swift */; };
 		F607182A2E5F678901234571 /* CallContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60708282E5F678901234567 /* CallContext.swift */; };
+		0718293A2E5F678901234572 /* BegumpBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0718292A2E5F678901234567 /* BegumpBridge.swift */; };
+		0718293B2E5F678901234573 /* BegumpBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0718292A2E5F678901234567 /* BegumpBridge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +117,7 @@
 		D4E5F6072E5F678901234567 /* SpeechCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechCaptureEngine.swift; sourceTree = "<group>"; };
 		E5F607082E5F678901234567 /* SiteContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteContext.swift; sourceTree = "<group>"; };
 		F60708282E5F678901234567 /* CallContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallContext.swift; sourceTree = "<group>"; };
+		0718292A2E5F678901234567 /* BegumpBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BegumpBridge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -169,6 +172,7 @@
 				A1B2C3D42E5F678901234567 /* LifeMemory.swift */,
 				F60708282E5F678901234567 /* CallContext.swift */,
 				E5F607082E5F678901234567 /* SiteContext.swift */,
+				0718292A2E5F678901234567 /* BegumpBridge.swift */,
 				69CC8D8289AC144EB71CB1B1 /* MusicLibrary.swift */,
 			);
 			path = Shared;
@@ -319,6 +323,7 @@
 				C3D4E5F72E5F67890123456B /* IntentionalUnderstanding.swift in Sources */,
 				E5F607182E5F67890123456E /* SiteContext.swift in Sources */,
 				F60718292E5F678901234570 /* CallContext.swift in Sources */,
+				0718293A2E5F678901234572 /* BegumpBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +350,7 @@
 				D4E5F6172E5F67890123456D /* SpeechCaptureEngine.swift in Sources */,
 				E5F607192E5F67890123456F /* SiteContext.swift in Sources */,
 				F607182A2E5F678901234571 /* CallContext.swift in Sources */,
+				0718293B2E5F678901234573 /* BegumpBridge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

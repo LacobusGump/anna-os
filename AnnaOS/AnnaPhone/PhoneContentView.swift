@@ -118,11 +118,12 @@ struct PhoneContentView: View {
                     Button("Save Health Profile") { brain.saveHealthProfile() }
                 }
 
-                Section("Mac Mini Tools (optional)") {
+                Section("Mac Mini + begump bridge") {
                     TextField("http://192.168.1.100:8765", text: $brain.macHost)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
-                    Text("Prime count, protein fold, etc. run here when reachable.")
+                    Toggle("Fallback via begump.com", isOn: $brain.useBegumpRelay)
+                    Text("LAN first — Mac Mini direct. When that fails, tools + sync can relay through begump.com/anna (your computer ↔ watch edge). Music already streams from begump CDN.")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

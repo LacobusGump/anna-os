@@ -15,6 +15,7 @@ final class PhoneBrain: ObservableObject {
     @Published var lastCallNotes: String = CallContext.shared.lastCallNotes
     @Published var manualSite: String = SiteContext.shared.manualSiteOverride
     @Published var currentSite: String = SiteContext.shared.currentSite
+    @Published var useBegumpRelay: Bool = BegumpBridge.useRelayFallback
 
     private let claude = ClaudeAPI()
     private let health = JimHealthProfile.shared
@@ -40,6 +41,7 @@ final class PhoneBrain: ObservableObject {
     func saveSettings() {
         KeychainHelper.saveAPIKey(apiKey)
         KeychainHelper.saveMacHost(macHost)
+        BegumpBridge.setUseRelayFallback(useBegumpRelay)
     }
 
     func saveHealthProfile() {
@@ -107,6 +109,8 @@ final class PhoneBrain: ObservableObject {
             + lifeMemory.contextBlock(for: memoryQuery, site: site)
             + "\n\n"
             + lifeMemory.inventoryBlock(site: site)
+            + "\n\n"
+            + BegumpBridge.contextBlock()
             + "\n\n---\n\n"
             + health.contextBlock()
             + "\n\n---\n\n"

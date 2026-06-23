@@ -73,7 +73,7 @@ v1: paste last call on iPhone. v2: CallKit. v3: **Anna gets her own phone number
 - Partner mode: offer help **or** music, not both unless asked.
 - iPhone authoritative; watch sync snapshot.
 
-Code: `LifeMemory.swift`, `SiteContext.swift`, `CallContext.swift`. Doc: `MEMORY_AND_PROVIDER.md`. No fake seed — Jim teaches Anna his life.
+Code: `LifeMemory.swift`, `SiteContext.swift`, `CallContext.swift`, `BegumpBridge.swift`. Doc: `MEMORY_AND_PROVIDER.md`. **begump.com** bridges Mac Mini ↔ watch when LAN isn't enough (music already there). No fake seed — Jim teaches Anna his life.
 
 ---
 
